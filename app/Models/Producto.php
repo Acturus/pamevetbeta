@@ -26,16 +26,26 @@ class Producto extends Model
 {
     
     static $rules = [
-		'nombre' => 'required|string|min:3|max:255',
-		'marca' => 'required|string|min:3|max:255',
-		'unidad_medida' => 'required|string',
-		'descripcion' => 'required|string',
+		'nombre' => 'required|string|min:3|max:100',
+		'marca' => 'required|string|min:3|max:100',
+		'unidad_medida' => 'required|string|max:100',
+		'descripcion' => 'required|string|max:300',
 		'fotos' => 'required',
     'fotos.*' => 'image',
 		'cantidad' => 'required|numeric|min:0',
 		'costo_unidad' => 'required|numeric|min:0.1',
     ];
 
+    static $updrules = [
+      'nombre' => 'required|string|min:3|max:100',
+      'marca' => 'required|string|min:3|max:100',
+      'unidad_medida' => 'required|string|max:100',
+      'descripcion' => 'required|string|max:300',
+      'fotos.*' => 'image',
+      'cantidad' => 'required|numeric|min:0',
+      'costo_unidad' => 'required|numeric|min:0.1',
+    ];
+  
     protected $perPage = 20;
 
     /**

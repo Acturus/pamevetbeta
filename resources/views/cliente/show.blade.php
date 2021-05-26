@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('template_title')
-    {{ $cliente->name ?? 'Show Cliente' }}
+    {{ $cliente->name ?? 'Info de Cliente' }}
 @endsection
 
 @section('content')
@@ -11,18 +11,18 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="float-left">
-                            <span class="card-title">Show Cliente</span>
+                            <span class="card-title">Información de Cliente</span>
                         </div>
                         <div class="float-right">
-                            <a class="btn btn-primary" href="{{ route('clientes.index') }}"> Back</a>
+                            <a class="btn btn-sm btn-primary" href="{{ route('clientes.index') }}"> Back</a>
                         </div>
                     </div>
 
                     <div class="card-body">
                         
                         <div class="form-group">
-                            <strong>Dni:</strong>
-                            {{ $cliente->dni }}
+                            <strong>Documento de identidad:</strong>
+                            {{ $cliente->documento_de_identidad }}
                         </div>
                         <div class="form-group">
                             <strong>Nombres:</strong>
@@ -37,12 +37,12 @@
                             {{ $cliente->correo }}
                         </div>
                         <div class="form-group">
-                            <strong>Direccion:</strong>
-                            {{ $cliente->direccion }}
+                            <strong>Celular:</strong>
+                            {{ $cliente->celular }}
                         </div>
                         <div class="form-group">
-                            <strong>Estado:</strong>
-                            {{ $cliente->estado }}
+                            <strong>Dirección:</strong>
+                            {{ $cliente->direccion }}
                         </div>
 
                     </div>

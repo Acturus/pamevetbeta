@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('template_title')
-    User
+    Gestion de Usuarios
 @endsection
 
 @section('content')
@@ -13,14 +13,14 @@
                         <div style="display: flex; justify-content: space-between; align-items: center;">
 
                             <span id="card_title">
-                                {{ __('User') }}
+                                {{ __('Usuarios') }}
                             </span>
 
-                             <div class="float-right">
+                            <div class="float-right">
                                 <a href="{{ route('users.create') }}" class="btn btn-primary btn-sm float-right"  data-placement="left">
-                                  {{ __('Create New') }}
+                                    {{ __('Nuevo Usuario') }}
                                 </a>
-                              </div>
+                            </div>
                         </div>
                     </div>
                     @if ($message = Session::get('success'))
@@ -39,9 +39,7 @@
 										<th>Nombres</th>
 										<th>Apellidos</th>
 										<th>Email</th>
-										<th>Estado</th>
-										<th>Id Rol</th>
-										<th>Foto Perfil</th>
+										<th>Rol</th>
 
                                         <th></th>
                                     </tr>
@@ -54,18 +52,17 @@
 											<td>{{ $user->nombres }}</td>
 											<td>{{ $user->apellidos }}</td>
 											<td>{{ $user->email }}</td>
-											<td>{{ $user->estado  ? 'Activo' : 'Inactivo' }}</td>
 											<td>{{ $user->id_rol ? 'Administrador' : 'Usuario' }}</td>
-											<td>{{ $user->foto_perfil }}</td>
 
                                             <td>
-                                                <form action="{{ route('users.destroy',$user->id) }}" method="POST">
-                                                    <a class="btn btn-sm btn-primary " href="{{ route('users.show',$user->id) }}"><i class="fa fa-fw fa-eye"></i> Show</a>
-                                                    <a class="btn btn-sm btn-success" href="{{ route('users.edit',$user->id) }}"><i class="fa fa-fw fa-edit"></i> Edit</a>
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash"></i> Delete</button>
-                                                </form>
+                                                <a class="btn btn-sm btn-success" href="{{ route('users.edit',$user->id) }}"><i class="fa fa-fw fa-edit"></i> Editar</a>
+                                                @if ( Auth::user()->id != $user->id )
+                                                    <form action="{{ route('users.destroy',$user->id) }}" method="POST" class="d-inline">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="button" class="btn btn-danger btn-sm deler"><i class="fa fa-fw fa-trash"></i> Eliminar</button>
+                                                    </form>
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach
@@ -78,4 +75,16 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('scripts')
+<script>
+    $(function(){
+        $(".deler").click(function(){
+            if(confirm("¿Desea eliminar el servicio?")){
+                $(this).parent().submit();
+            }
+        });
+    });
+</script>
 @endsection

@@ -104,6 +104,6 @@ class VentaController extends Controller
         $venta = Venta::find($id)->delete();
 
         return redirect()->route('ventas.index')
-            ->with('success', 'Venta deleted successfully');
+            ->with('success', 'La venta fue retirada de nuestros registros');
     }
 }

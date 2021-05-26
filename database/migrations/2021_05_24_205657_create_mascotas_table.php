@@ -17,7 +17,7 @@ class CreateMascotasTable extends Migration
             $table->id();
             $table->unsignedBigInteger('id_cliente');
             $table->string('nombre', 100);
-            $table->boolean('sexo');
+            $table->string('sexo', 20);
             $table->unsignedBigInteger('id_especie');
             $table->integer('edad');
             $table->string('fotos', 300)->nullable();

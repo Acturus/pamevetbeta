@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
 @section('template_title')
-    Update Producto
+    Modificar Producto
 @endsection
 
 @section('content')
     <section class="content container-fluid">
-        <div class="">
+        <div class="row">
             <div class="col-md-12">
 
                 @includeif('partials.errors')
@@ -21,7 +21,6 @@
                             @csrf
 
                             @include('producto.form')
-
                         </form>
                     </div>
                 </div>

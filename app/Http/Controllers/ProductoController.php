@@ -48,13 +48,10 @@ class ProductoController extends Controller
 
         $images = "";
 
-        if($request->hasFile('fotos'))
-        {
-            foreach ($request->file('fotos') as $file ) {
-                $path = $file->store('public/productos');
-                $image = str_replace('public/','storage/',$path);
-                $images .= "$image,";
-            }
+        foreach ($request->file('fotos') as $file ) {
+            $path = $file->store('public/productos');
+            $image = str_replace('public/','storage/',$path);
+            $images .= "$image,";
         }
 
         $newProduct = $request->except('fotos');
@@ -101,12 +98,26 @@ class ProductoController extends Controller
      */
     public function update(Request $request, Producto $producto)
     {
-        request()->validate(Producto::$rules);
+        request()->validate(Producto::$updrules);
+        $images = "";
 
-        $producto->update($request->all());
+        if($request->hasFile('fotos')){
+            foreach ($request->file('fotos') as $file ) {
+                $path = $file->store('public/productos');
+                $image = str_replace('public/','storage/',$path);
+                $images .= "$image,";
+            }
+
+            $newProduct = $request->except('fotos');
+            $newProduct['fotos'] = substr($images,0,-1); 
+            $producto->update($newProduct);
+        }
+        else{
+            $producto->update($request->all());
+        }
 
         return redirect()->route('productos.index')
-            ->with('success', 'Producto updated successfully');
+            ->with('success', 'Se actualizaron los datos correctamente');
     }
 
     /**
@@ -119,6 +130,6 @@ class ProductoController extends Controller
         $producto = Producto::find($id)->delete();
 
         return redirect()->route('productos.index')
-            ->with('success', 'Producto deleted successfully');
+            ->with('success', 'El Producto se eliminó correctamente');
     }
 }

@@ -35,11 +35,11 @@ class User extends Authenticatable
     ];
     
     static $rules = [
-		'nombres' => 'required',
-		'apellidos' => 'required',
-		'email' => 'required',
-		'estado' => 'required',
-		'id_rol' => 'required',
+      'nombres' => 'required|string|min:4|max:100',
+      'apellidos' => 'required|string|min:4|max:100',
+      'email' => 'required|string|min:13|max:100|unique:users,email',
+      'id_rol' => 'required|numeric|min:1',
+      'password'=> 'required|min:8'
     ];
 
     protected $perPage = 20;

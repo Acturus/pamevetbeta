@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('template_title')
-    {{ $producto->name ?? 'Show Producto' }}
+    {{ $producto->name ?? 'Detalle de Producto' }}
 @endsection
 
 @section('content')
@@ -11,10 +11,10 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="float-left">
-                            <span class="card-title">Show Producto</span>
+                            <span class="card-title">Detalle de Producto</span>
                         </div>
                         <div class="float-right">
-                            <a class="btn btn-primary" href="{{ route('productos.index') }}"> Back</a>
+                            <a class="btn btn-sm btn-primary" href="{{ route('productos.index') }}"> Volver</a>
                         </div>
                     </div>
 
@@ -33,12 +33,8 @@
                             {{ $producto->unidad_medida }}
                         </div>
                         <div class="form-group">
-                            <strong>Descripcion:</strong>
+                            <strong>Descripción:</strong>
                             {{ $producto->descripcion }}
-                        </div>
-                        <div class="form-group">
-                            <strong>Fotos:</strong>
-                            {{ $producto->fotos }}
                         </div>
                         <div class="form-group">
                             <strong>Cantidad:</strong>
@@ -48,7 +44,14 @@
                             <strong>Costo Unidad:</strong>
                             {{ $producto->costo_unidad }}
                         </div>
-
+                        <div class="form-group">
+                            <strong>Fotos:</strong><br><br>
+                            <div>
+                            @foreach(explode(',', $producto->fotos) as $urlfoto)
+                                <img src="/{{ $urlfoto }}" class="rounded float-start" height="220">
+                            @endforeach
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

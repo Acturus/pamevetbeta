@@ -86,12 +86,18 @@ class ClienteController extends Controller
      */
     public function update(Request $request, Cliente $cliente)
     {
-        request()->validate(Cliente::$rules);
+        $updrules = [
+            'documento_de_identidad' => 'required|numeric|digits_between:8,15|unique:clientes,documento_de_identidad,'.$cliente->id,
+            'correo'=>'required|string|min:13|max:100|unique:clientes,correo,'.$cliente->id,
+            'celular'=> 'required|digits:9|unique:clientes,celular,'.$cliente->id,
+        ];
+
+        request()->validate(array_replace(Cliente::$rules, $updrules));
 
         $cliente->update($request->all());
 
         return redirect()->route('clientes.index')
-            ->with('success', 'Cliente updated successfully');
+            ->with('success', 'Se actualizaron los datos correctamente');
     }
 
     /**
@@ -104,6 +110,6 @@ class ClienteController extends Controller
         $cliente = Cliente::find($id)->delete();
 
         return redirect()->route('clientes.index')
-            ->with('success', 'Cliente deleted successfully');
+            ->with('success', 'Se eliminó el cliente correctamente');
     }
 }

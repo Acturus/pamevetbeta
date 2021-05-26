@@ -8,12 +8,12 @@ use Illuminate\Database\Eloquent\Model;
  * Class Cliente
  *
  * @property $id
- * @property $dni
+ * @property $documento_de_identidad
  * @property $nombres
  * @property $apellidos
  * @property $correo
+ * @property $celular
  * @property $direccion
- * @property $estado
  * @property $created_at
  * @property $updated_at
  *
@@ -26,12 +26,12 @@ class Cliente extends Model
 {
     
     static $rules = [
-		'dni' => 'required',
-		'nombres' => 'required',
-		'apellidos' => 'required',
-		'correo' => 'required',
-		'direccion' => 'required',
-		'estado' => 'required',
+		'documento_de_identidad' => 'required|numeric|digits_between:8,15|unique:clientes,documento_de_identidad',
+		'nombres' => 'required|string|min:4|max:100',
+		'apellidos' => 'required|string|min:4|max:100',
+		'correo' => 'required|string|min:13|max:100|unique:clientes,correo',
+        'celular'=> 'required|digits:9|unique:clientes,celular',
+		'direccion' => 'required|string|min:20|max:200',
     ];
 
     protected $perPage = 20;
@@ -41,7 +41,7 @@ class Cliente extends Model
      *
      * @var array
      */
-    protected $fillable = ['dni','nombres','apellidos','correo','direccion','estado'];
+    protected $fillable = ['documento_de_identidad','nombres','apellidos','correo','celular','direccion'];
 
 
     /**

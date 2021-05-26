@@ -18,7 +18,7 @@ class CreateProductosTable extends Migration
             $table->string('nombre', 100);
             $table->string('marca', 100);
             $table->string('unidad_medida', 100);
-            $table->string('descripcion', 100);
+            $table->string('descripcion', 300);
             $table->string('fotos', 300);
             $table->decimal('cantidad', 6, 2);
             $table->decimal('costo_unidad', 6, 2);

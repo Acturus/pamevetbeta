@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
  * Class Servicio
  *
  * @property $id
+ * @property $nombre
  * @property $descripcion
  * @property $costo
  * @property $foto
@@ -22,9 +23,11 @@ class Servicio extends Model
 {
     
     static $rules = [
-		'descripcion' => 'required',
-		'costo' => 'required',
-		'foto' => 'required',
+      'nombre' => 'required|string|min:3|max:100|unique:servicios,nombre',
+      'descripcion' => 'required|string|max:300',
+      'costo' => 'required|numeric|min:0.1',
+      'foto' => 'required',
+      'foto.*' => 'image',
     ];
 
     protected $perPage = 20;
@@ -34,7 +37,7 @@ class Servicio extends Model
      *
      * @var array
      */
-    protected $fillable = ['descripcion','costo','foto'];
+    protected $fillable = ['nombre','descripcion','costo','foto'];
 
 
     /**

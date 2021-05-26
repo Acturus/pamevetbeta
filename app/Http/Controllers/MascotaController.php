@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cliente;
+use App\Models\EspecieMascota;
 use App\Models\Mascota;
 use Illuminate\Http\Request;
 
@@ -32,7 +34,14 @@ class MascotaController extends Controller
     public function create()
     {
         $mascota = new Mascota();
-        return view('mascota.create', compact('mascota'));
+        $clientes = Cliente::all();
+        $especies = EspecieMascota::all();
+        
+        return view('mascota.create',[
+            'mascota' => $mascota,
+            'clientes' => $clientes,
+            'especies' => $especies
+        ]);
     }
 
     /**
@@ -73,8 +82,14 @@ class MascotaController extends Controller
     public function edit($id)
     {
         $mascota = Mascota::find($id);
+        $clientes = Cliente::all();
+        $especies = EspecieMascota::all();
 
-        return view('mascota.edit', compact('mascota'));
+        return view('mascota.edit',[
+            'mascota' => $mascota,
+            'clientes' => $clientes,
+            'especies' => $especies
+        ]);
     }
 
     /**
@@ -101,9 +116,11 @@ class MascotaController extends Controller
      */
     public function destroy($id)
     {
+
+
         $mascota = Mascota::find($id)->delete();
 
         return redirect()->route('mascotas.index')
-            ->with('success', 'Mascota deleted successfully');
+            ->with('success', 'Eliminado correcamente T_T');
     }
 }

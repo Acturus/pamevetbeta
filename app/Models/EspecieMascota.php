@@ -23,10 +23,10 @@ class EspecieMascota extends Model
 {
     
     static $rules = [
-		'nombre' => 'required',
-		'tipo' => 'required',
-		'nombre_cientifico' => 'required',
-		'peligro_extincion' => 'required',
+		'nombre' => 'required|string|min:4|max:100|unique:especie_mascotas,nombre',
+		'tipo' => 'required|string|min:3|max:100',
+		'nombre_cientifico' => 'required|string|min:5|max:100',
+		'peligro_extincion' => 'required|digits:1',
     ];
 
     protected $perPage = 20;

@@ -13,27 +13,44 @@
         </div>
         <div class="form-group">
             {{ Form::label('email') }}
-            {{ Form::text('email', $user->email, ['class' => 'form-control' . ($errors->has('email') ? ' is-invalid' : ''), 'placeholder' => 'Email']) }}
+            {{ Form::email('email', $user->email, ['class' => 'form-control' . ($errors->has('email') ? ' is-invalid' : ''), 'placeholder' => 'Email']) }}
             {!! $errors->first('email', '<div class="invalid-feedback">:message</p>') !!}
         </div>
-        <div class="form-group">
+        {{-- <div class="form-group">
             {{ Form::label('estado') }}
             {{ Form::select('estado', ['1' => 'Activo', '0' => 'Inactivo'], $user->estado, ['class' => 'form-control' . ($errors->has('estado') ? ' is-invalid' : ''), 'placeholder' => '- seleccione -']) }}
             {!! $errors->first('estado', '<div class="invalid-feedback">:message</p>') !!}
-        </div>
+        </div> --}}
         <div class="form-group">
             {{ Form::label('Roles') }}
             {{ Form::select('id_rol', ['1' => 'Administrador', '2' => 'Veterinario'], $user->id_rol, ['class' => 'form-control' . ($errors->has('id_rol') ? ' is-invalid' : ''), 'placeholder' => '- seleccione -']) }}
-            {{-- {{ Form::text('id_rol', $user->id_rol, ['class' => 'form-control' . ($errors->has('id_rol') ? ' is-invalid' : ''), 'placeholder' => 'Id Rol']) }} --}}
             {!! $errors->first('id_rol', '<div class="invalid-feedback">:message</p>') !!}
         </div>
         <div class="form-group">
             {{ Form::label('Contraseña') }}
-            <input type="password" name="password" id="password"  class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}" placeholder="Contraseña">
+            @if(Route::is('users.edit'))
+                <input type="password" name="password" id="password" disabled class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}" placeholder="Sin cambios">
+                <button type="button" class="btn btn-sm btn-warning passman text-white">Cambiar Contraseña</button>
+                <button type="button" class="btn btn-sm btn-danger passman" style="display:none">Cancelar Cambio</button>
+            @else
+                <input type="password" name="password" id="password" disabled class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}" placeholder="Contraseña">
+            @endif
             {!! $errors->first('password', '<div class="invalid-feedback">:message</p>') !!}
         </div>
     </div>
     <div class="box-footer mt20">
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary">GUARDAR</button>
     </div>
 </div>
+@section('scripts')
+<script>
+    $(function(){
+        $(".passman").click(function(){
+            $(".passman").toggle();
+            $("#password").attr('disabled', (_, valor) => !valor);
+            $("#password").attr('placeholder', (_, texto) => texto == "Contraseña" ? "Sin Cambios" : "Contraseña");
+            $("#password:not([disabled])").focus();
+        });
+    });
+</script>
+@endsection

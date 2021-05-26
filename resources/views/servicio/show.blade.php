@@ -11,15 +11,19 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="float-left">
-                            <span class="card-title">Show Servicio</span>
+                            <span class="card-title">Detalle de Servicio</span>
                         </div>
                         <div class="float-right">
-                            <a class="btn btn-primary" href="{{ route('servicios.index') }}"> Back</a>
+                            <a class="btn btn-sm btn-primary" href="{{ route('servicios.index') }}"> Volver</a>
                         </div>
                     </div>
 
                     <div class="card-body">
                         
+                        <div class="form-group">
+                            <strong>Nombre:</strong>
+                            {{ $servicio->nombre }}
+                        </div>
                         <div class="form-group">
                             <strong>Descripcion:</strong>
                             {{ $servicio->descripcion }}
@@ -29,10 +33,11 @@
                             {{ $servicio->costo }}
                         </div>
                         <div class="form-group">
-                            <strong>Foto:</strong>
-                            {{ $servicio->foto }}
+                            <strong>Fotos:</strong><br><br>
+                            <div>
+                                <img src="/{{ $servicio->foto }}" class="rounded float-start" height="220">
+                            </div>
                         </div>
-
                     </div>
                 </div>
             </div>

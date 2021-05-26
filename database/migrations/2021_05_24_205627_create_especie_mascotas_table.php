@@ -15,10 +15,10 @@ class CreateEspecieMascotasTable extends Migration
     {
         Schema::create('especie_mascotas', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre', 100);
+            $table->string('nombre', 100)->unique();
             $table->string('tipo', 100);
             $table->string('nombre_cientifico', 100);
-            $table->boolean('peligro_extincion')->default(0);
+            $table->boolean('peligro_extincion')->default(false);
             $table->timestamps();
         });
     }

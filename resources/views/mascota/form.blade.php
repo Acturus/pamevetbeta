@@ -2,9 +2,17 @@
     <div class="box-body">
         
         <div class="form-group">
-            {{ Form::label('id_cliente') }}
-            {{ Form::text('id_cliente', $mascota->id_cliente, ['class' => 'form-control' . ($errors->has('id_cliente') ? ' is-invalid' : ''), 'placeholder' => 'Id Cliente']) }}
+            {{ Form::label('id_cliente', 'Cliente') }}
+            <select name="id_cliente" id="id_cliente" class="form-control {{ $errors->has('id_cliente') ? ' is-invalid' : '' }}">
+                <option value=""> - seleccione - </option>
+                @foreach ($clientes as $cliente)
+                    <option @if ($mascota->id_cliente !== null && $mascota->id_cliente === $cliente->id) selected @endif value="{{ $cliente->id }}">{{ $cliente->nombres.' '.$cliente->apellidos }}</option>
+                @endforeach
+            </select>
             {!! $errors->first('id_cliente', '<div class="invalid-feedback">:message</p>') !!}
+            {{-- 
+            {{ Form::text('id_cliente', $mascota->id_cliente, ['class' => 'form-control' . ($errors->has('id_cliente') ? ' is-invalid' : ''), 'placeholder' => 'Id Cliente']) }}
+                --}}
         </div>
         <div class="form-group">
             {{ Form::label('nombre') }}
@@ -17,9 +25,13 @@
             {!! $errors->first('sexo', '<div class="invalid-feedback">:message</p>') !!}
         </div>
         <div class="form-group">
-            {{ Form::label('id_especie') }}
-            {{ Form::text('id_especie', $mascota->id_especie, ['class' => 'form-control' . ($errors->has('id_especie') ? ' is-invalid' : ''), 'placeholder' => 'Id Especie']) }}
-            {!! $errors->first('id_especie', '<div class="invalid-feedback">:message</p>') !!}
+            {{ Form::label('id_especie', 'Especie') }}
+            <select name="id_especie" id="id_especie" class="form-control {{ $errors->has('id_especie') ? ' is-invalid' : '' }}">
+                <option value=""> - seleccione - </option>
+                @foreach ($especies as $especie)
+                    <option @if ($mascota->id_especie !== null && $mascota->id_especie === $especie->id) selected @endif value="{{ $especie->id }}">{{ $especie->nombre }}</option>
+                @endforeach
+            </select>
         </div>
         <div class="form-group">
             {{ Form::label('edad') }}
@@ -34,6 +46,6 @@
 
     </div>
     <div class="box-footer mt20">
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary">GUARDAR</button>
     </div>
 </div>

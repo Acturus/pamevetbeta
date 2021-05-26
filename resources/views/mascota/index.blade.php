@@ -60,7 +60,7 @@
 
                                             <td>
                                                 <form action="{{ route('mascotas.destroy',$mascota->id) }}" method="POST">
-                                                    <a class="btn btn-sm btn-primary " href="{{ route('mascotas.show',$mascota->id) }}"><i class="fa fa-fw fa-eye"></i> Show</a>
+                                                    {{-- <a class="btn btn-sm btn-primary " href="{{ route('mascotas.show',$mascota->id) }}"><i class="fa fa-fw fa-eye"></i> Show</a> --}}
                                                     <a class="btn btn-sm btn-success" href="{{ route('mascotas.edit',$mascota->id) }}"><i class="fa fa-fw fa-edit"></i> Edit</a>
                                                     @csrf
                                                     @method('DELETE')

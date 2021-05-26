@@ -45,10 +45,15 @@ class ServicioController extends Controller
     {
         request()->validate(Servicio::$rules);
 
-        $servicio = Servicio::create($request->all());
+        $path = $request->file('foto')[0]->store('public/servicios');
+
+        $newServicio = $request->except('foto');
+        $newServicio['foto'] = str_replace('public/','storage/',$path);
+
+        Servicio::create($newServicio);
 
         return redirect()->route('servicios.index')
-            ->with('success', 'Servicio creado correctamente');
+            ->with('success', 'Servicio registrado correctamente');
     }
 
     /**
@@ -86,12 +91,26 @@ class ServicioController extends Controller
      */
     public function update(Request $request, Servicio $servicio)
     {
-        request()->validate(Servicio::$rules);
+        $updrules = [
+            'foto' => 'nullable',
+            'nombre' => 'required|string|min:3|max:100|unique:servicios,nombre,'.$servicio->id
+        ];
 
-        $servicio->update($request->all());
+        request()->validate(array_replace(Servicio::$rules, $updrules));
 
+        if($request->hasFile('foto')){
+            $path = $request->file('foto')[0]->store('public/servicios');
+
+            $newServicio = $request->except('foto');
+            $newServicio['foto'] = str_replace('public/','storage/',$path);
+
+            $servicio->update($newServicio);
+        }
+        else{
+            $servicio->update($request->all());
+        }
         return redirect()->route('servicios.index')
-            ->with('success', 'Servicio updated successfully');
+            ->with('success', 'Se actualizaron los datos correctamente');
     }
 
     /**
@@ -104,6 +123,6 @@ class ServicioController extends Controller
         $servicio = Servicio::find($id)->delete();
 
         return redirect()->route('servicios.index')
-            ->with('success', 'Servicio deleted successfully');
+            ->with('success', 'Se eliminó el servicio con éxito');
     }
 }

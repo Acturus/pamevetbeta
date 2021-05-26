@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('template_title')
-    Create Mascota
+    Agregar Mascota
 @endsection
 
 @section('content')
@@ -13,7 +13,7 @@
 
                 <div class="card card-default">
                     <div class="card-header">
-                        <span class="card-title">Create Mascota</span>
+                        <span class="card-title">Agregar Mascota</span>
                     </div>
                     <div class="card-body">
                         <form method="POST" action="{{ route('mascotas.store') }}"  role="form" enctype="multipart/form-data">

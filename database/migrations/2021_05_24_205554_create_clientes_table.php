@@ -15,12 +15,12 @@ class CreateClientesTable extends Migration
     {
         Schema::create('clientes', function (Blueprint $table) {
             $table->id();
-            $table->string('dni', 8);
+            $table->string('documento_de_identidad', 15)->unique();
             $table->string('nombres', 100);
             $table->string('apellidos', 100);
-            $table->string('correo', 50);
-            $table->string('direccion', 150);
-            $table->boolean('estado')->default(1);
+            $table->string('correo', 100)->unique();
+            $table->string('celular', 9)->unique();
+            $table->string('direccion', 200);
             $table->timestamps();
         });
     }

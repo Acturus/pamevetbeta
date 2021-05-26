@@ -44,18 +44,12 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $fields = request()->validate([
-            'nombres' => 'required',
-            'apellidos' => 'required',
-            'email' => 'required|unique:users,email',
-            'estado' => 'required',
-            'id_rol' => 'required|numeric',
-            'password' => 'required|string|min:8'
-        ]);
+        request()->validate(User::$rules);
 
-        $fields['password'] = Hash::make($fields['password']);
+        $newUser = $request->except('password');
+        $newUser['password'] = Hash::make(request()->get('password'));
 
-        $user = User::create($fields);
+        User::create($newUser);
 
         return redirect()->route('users.index')
             ->with('success', 'Se registró el usuario correctamente');
@@ -96,12 +90,18 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        request()->validate(User::$rules);
+
+        $updrules = [
+            'password'=>'min:8',
+            'email'=>'required|string|min:13|max:100|unique:users,email,'.$user->id
+        ];
+
+        request()->validate(array_replace(User::$rules, $updrules));
 
         $user->update($request->all());
 
         return redirect()->route('users.index')
-            ->with('success', 'User updated successfully');
+            ->with('success', 'Se actualizaron los datos correctamente');
     }
 
     /**
@@ -114,6 +114,6 @@ class UserController extends Controller
         $user = User::find($id)->delete();
 
         return redirect()->route('users.index')
-            ->with('success', 'User deleted successfully');
+            ->with('success', 'Usuario eliminado correctamente');
     }
 }

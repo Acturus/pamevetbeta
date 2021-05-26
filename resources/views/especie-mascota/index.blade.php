@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('template_title')
-    Especie Mascota
+    Especies de Mascotas
 @endsection
 
 @section('content')
@@ -16,11 +16,11 @@
                                 {{ __('Especie Mascota') }}
                             </span>
 
-                             <div class="float-right">
+                            <div class="float-right">
                                 <a href="{{ route('especie-mascotas.create') }}" class="btn btn-primary btn-sm float-right"  data-placement="left">
-                                  {{ __('Create New') }}
+                                    {{ __('Agregar') }}
                                 </a>
-                              </div>
+                            </div>
                         </div>
                     </div>
                     @if ($message = Session::get('success'))
@@ -38,8 +38,8 @@
                                         
 										<th>Nombre</th>
 										<th>Tipo</th>
-										<th>Nombre Cientifico</th>
-										<th>Peligro Extincion</th>
+										<th>Nombre Científico</th>
+										<th>Peligro Extinción</th>
 
                                         <th></th>
                                     </tr>
@@ -52,15 +52,14 @@
 											<td>{{ $especieMascota->nombre }}</td>
 											<td>{{ $especieMascota->tipo }}</td>
 											<td>{{ $especieMascota->nombre_cientifico }}</td>
-											<td>{{ $especieMascota->peligro_extincion }}</td>
+											<td>{{ $especieMascota->peligro_extincion ? 'Si' : 'No' }}</td>
 
                                             <td>
                                                 <form action="{{ route('especie-mascotas.destroy',$especieMascota->id) }}" method="POST">
-                                                    <a class="btn btn-sm btn-primary " href="{{ route('especie-mascotas.show',$especieMascota->id) }}"><i class="fa fa-fw fa-eye"></i> Show</a>
                                                     <a class="btn btn-sm btn-success" href="{{ route('especie-mascotas.edit',$especieMascota->id) }}"><i class="fa fa-fw fa-edit"></i> Edit</a>
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash"></i> Delete</button>
+                                                    <button type="button" class="btn btn-danger btn-sm deler"><i class="fa fa-fw fa-trash"></i> Delete</button>
                                                 </form>
                                             </td>
                                         </tr>
@@ -74,4 +73,16 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('scripts')
+<script>
+    $(function(){
+        $(".deler").click(function(){
+            if(confirm("¿Desea eliminar la especie?")){
+                $(this).parent().submit();
+            }
+        });
+    });
+</script>
 @endsection

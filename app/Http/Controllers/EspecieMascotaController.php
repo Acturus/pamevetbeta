@@ -86,7 +86,11 @@ class EspecieMascotaController extends Controller
      */
     public function update(Request $request, EspecieMascota $especieMascota)
     {
-        request()->validate(EspecieMascota::$rules);
+        $updrules = [
+            'nombre' => 'required|string|min:4|max:100|unique:especie_mascotas,nombre,'.$especieMascota->id
+        ];
+
+        request()->validate(array_replace(EspecieMascota::$rules, $updrules));
 
         $especieMascota->update($request->all());
 
@@ -104,6 +108,6 @@ class EspecieMascotaController extends Controller
         $especieMascota = EspecieMascota::find($id)->delete();
 
         return redirect()->route('especie-mascotas.index')
-            ->with('success', 'EspecieMascota deleted successfully');
+            ->with('success', 'Se borró la especie correctamente');
     }
 }
