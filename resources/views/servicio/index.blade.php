@@ -58,7 +58,13 @@
 											<td>{{ $servicio->descripcion }}</td>
 											<td>{{ $servicio->costo }}</td>
 											{{-- <td>{{ $servicio->foto }}</td> --}}
-                                            <td> <a class="btn btn-sm btn-primary" href="{{ $servicio->foto }}" data-lightbox="fotos{{ $i }}">Ver Foto</a> </td>
+                                            <td> 
+                                                @if ($servicio->foto)
+                                                    <a class="btn btn-sm btn-primary" href="{{ $servicio->foto }}" data-lightbox="fotos{{ $i }}">Ver Foto</a>
+                                                @else
+                                                    <button class="btn btn-sm btn-primary" disabled>Sin foto</button>
+                                                @endif
+                                            </td>
 
                                             <td>
                                                 <form action="{{ route('servicios.destroy',$servicio->id) }}" method="POST">

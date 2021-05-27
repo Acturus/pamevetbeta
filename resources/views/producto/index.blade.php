@@ -60,9 +60,7 @@
 											<td>{{ $producto->nombre }}</td>
 											<td>{{ $producto->marca }}</td>
 											<td>{{ $producto->unidad_medida }}</td>
-											{{-- <td>{{ $producto->descripcion }}</td> --}}
 											<td>
-                                                {{-- {{ $producto->fotos }} --}}
                                                 @foreach(explode(',', $producto->fotos) as $urlfoto)
                                                     <a class="btn btn-sm btn-primary @if (!$loop->first) d-none @endif" href="{{ $urlfoto }}" data-lightbox="fotos{{ $i }}">Ver Fotos</a>
                                                 @endforeach

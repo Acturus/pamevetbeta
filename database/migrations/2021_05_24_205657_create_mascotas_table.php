@@ -17,10 +17,10 @@ class CreateMascotasTable extends Migration
             $table->id();
             $table->unsignedBigInteger('id_cliente');
             $table->string('nombre', 100);
-            $table->string('sexo', 20);
+            $table->boolean('sexo');
             $table->unsignedBigInteger('id_especie');
-            $table->integer('edad');
-            $table->string('fotos', 300)->nullable();
+            $table->date('fecha_nacimiento');
+            $table->string('fotos', 300);
             $table->timestamps();
 
             $table->foreign('id_cliente')->references('id')->on('clientes');

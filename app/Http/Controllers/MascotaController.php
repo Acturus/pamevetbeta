@@ -54,7 +54,19 @@ class MascotaController extends Controller
     {
         request()->validate(Mascota::$rules);
 
-        $mascota = Mascota::create($request->all());
+        $images = "";
+
+        foreach ($request->file('fotos') as $file ) {
+            $path = $file->store('public/mascotas');
+            $image = str_replace('public/','storage/',$path);
+            $images .= "$image,";
+        }
+
+        $newMascota = $request->except(['fotos','fecha_nacimiento']);
+        $newMascota['fotos'] = substr($images,0,-1); 
+        $newMascota['fecha_nacimiento'] = date('Y-m-d', strtotime($request->get('fecha_nacimiento')));
+
+        $mascota = Mascota::create($newMascota);
 
         return redirect()->route('mascotas.index')
             ->with('success', 'Hemos registrado correctamente a un nuevo amigo de la familia Pamevet');
@@ -101,12 +113,32 @@ class MascotaController extends Controller
      */
     public function update(Request $request, Mascota $mascota)
     {
-        request()->validate(Mascota::$rules);
+        $updrules = [
+            'fotos' => 'nullable'
+        ];
 
-        $mascota->update($request->all());
+        request()->validate(array_replace(Mascota::$rules,$updrules));
+        $images = "";
+
+        if($request->hasFile('fotos')){
+            foreach ($request->file('fotos') as $file ) {
+                $path = $file->store('public/mascotas');
+                $image = str_replace('public/','storage/',$path);
+                $images .= "$image,";
+            }
+
+            $newMascota = $request->except(['fotos','fecha_nacimiento']);
+            $newMascota['fotos'] = substr($images,0,-1);
+        }
+        else{
+            $newMascota = $request->except('fecha_nacimiento');
+        }
+
+        $newMascota['fecha_nacimiento'] = date('Y-m-d', strtotime($request->get('fecha_nacimiento')));
+        $mascota->update($newMascota);
 
         return redirect()->route('mascotas.index')
-            ->with('success', 'Mascota updated successfully');
+            ->with('success', 'Actualizamos tus datos con éxito :)');
     }
 
     /**
@@ -121,6 +153,6 @@ class MascotaController extends Controller
         $mascota = Mascota::find($id)->delete();
 
         return redirect()->route('mascotas.index')
-            ->with('success', 'Eliminado correcamente T_T');
+            ->with('success', 'Eliminado correctamente T_T');
     }
 }

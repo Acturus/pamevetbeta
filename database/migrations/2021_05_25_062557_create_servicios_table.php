@@ -18,7 +18,7 @@ class CreateServiciosTable extends Migration
             $table->string('nombre', 100)->unique();
             $table->string('descripcion', 300);
             $table->decimal('costo', 6, 2);
-            $table->string('foto', 300);
+            $table->string('foto', 300)->nullable();
             $table->timestamps();
         });
     }

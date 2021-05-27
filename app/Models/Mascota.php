@@ -26,11 +26,13 @@ class Mascota extends Model
 {
     
     static $rules = [
-		'id_cliente' => 'required',
-		'nombre' => 'required',
-		'sexo' => 'required',
-		'id_especie' => 'required',
-		'edad' => 'required',
+		'id_cliente' => 'required|numeric|min:1',
+		'nombre' => 'required|string|min:4|max:100',
+		'sexo' => 'required|digits:1',
+		'id_especie' => 'required|numeric|min:1',
+        'fecha_nacimiento'=>'required|date|date_format:d/m/Y|before_or_equal:now',
+        'fotos'=>'required',
+        'fotos.*' => 'image',
     ];
 
     protected $perPage = 20;
@@ -40,7 +42,7 @@ class Mascota extends Model
      *
      * @var array
      */
-    protected $fillable = ['id_cliente','nombre','sexo','id_especie','edad','fotos'];
+    protected $fillable = ['id_cliente','nombre','sexo','id_especie','fecha_nacimiento','fotos'];
 
 
     /**

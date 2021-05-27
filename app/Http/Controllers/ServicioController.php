@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Servicio;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * Class ServicioController
@@ -45,12 +46,17 @@ class ServicioController extends Controller
     {
         request()->validate(Servicio::$rules);
 
-        $path = $request->file('foto')[0]->store('public/servicios');
+        if($request->hasFile('foto')){
+            $path = $request->file('foto')[0]->store('public/servicios');
 
-        $newServicio = $request->except('foto');
-        $newServicio['foto'] = str_replace('public/','storage/',$path);
+            $newServicio = $request->except('foto');
+            $newServicio['foto'] = str_replace('public/','storage/',$path);
 
-        Servicio::create($newServicio);
+            Servicio::create($newServicio);
+        }
+        else{
+            Servicio::create($request->all());
+        }
 
         return redirect()->route('servicios.index')
             ->with('success', 'Servicio registrado correctamente');
@@ -91,8 +97,8 @@ class ServicioController extends Controller
      */
     public function update(Request $request, Servicio $servicio)
     {
+
         $updrules = [
-            'foto' => 'nullable',
             'nombre' => 'required|string|min:3|max:100|unique:servicios,nombre,'.$servicio->id
         ];
 
@@ -104,11 +110,14 @@ class ServicioController extends Controller
             $newServicio = $request->except('foto');
             $newServicio['foto'] = str_replace('public/','storage/',$path);
 
+            Storage::disk('public')->delete('servicios/'.basename($servicio->getOriginal('foto')));
+
             $servicio->update($newServicio);
         }
         else{
             $servicio->update($request->all());
         }
+
         return redirect()->route('servicios.index')
             ->with('success', 'Se actualizaron los datos correctamente');
     }
@@ -124,5 +133,7 @@ class ServicioController extends Controller
 
         return redirect()->route('servicios.index')
             ->with('success', 'Se eliminó el servicio con éxito');
+
     }
+
 }

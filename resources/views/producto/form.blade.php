@@ -39,7 +39,6 @@
         </div>
         <div class="form-group">
             {{ Form::label('fotos') }}
-            {{-- <input type="file" name="fotos[]" id="fotos" multiple accept="image/*" class="form-control {{ $errors->has('fotos') ? ' is-invalid' : '' }}"> --}}
             <div id="multifile" class="{{ $errors->has('fotos') ? ' is-invalid' : '' }}"></div>
             @if(Route::is('productos.edit'))
                 <p class="text-muted"><small>Tenga en cuenta que las fotografías que suba durante la edición reemplazarán a las actuales, si no desea modificarlas puede dejar este campo en blanco</small></p>

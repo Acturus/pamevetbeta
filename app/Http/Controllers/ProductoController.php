@@ -98,7 +98,11 @@ class ProductoController extends Controller
      */
     public function update(Request $request, Producto $producto)
     {
-        request()->validate(Producto::$updrules);
+        $updrules = [
+            'fotos' => 'nullable'
+        ];
+
+        request()->validate(array_replace(Producto::$rules,$updrules));
         $images = "";
 
         if($request->hasFile('fotos')){
