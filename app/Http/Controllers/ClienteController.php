@@ -45,7 +45,7 @@ class ClienteController extends Controller
     {
         request()->validate(Cliente::$rules);
 
-        $cliente = Cliente::create($request->all());
+        Cliente::create($request->all());
 
         return redirect()->route('clientes.index')
             ->with('success', 'Cliente registrado con éxito');

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Producto;
+use App\Models\Provider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -19,10 +20,9 @@ class ProductoController extends Controller
      */
     public function index()
     {
-        $productos = Producto::paginate();
+        $productos = Producto::with('provider:id,nombre')->get();
 
-        return view('producto.index', compact('productos'))
-            ->with('i', (request()->input('page', 1) - 1) * $productos->perPage());
+        return view('producto.index', compact('productos'));
     }
 
     /**
@@ -33,7 +33,9 @@ class ProductoController extends Controller
     public function create()
     {
         $producto = new Producto();
-        return view('producto.create', compact('producto'));
+        $proveedores = Provider::select('id', 'nombre')->get();
+
+        return view('producto.create', compact('producto','proveedores'));
     }
 
     /**
@@ -85,8 +87,9 @@ class ProductoController extends Controller
     public function edit($id)
     {
         $producto = Producto::find($id);
+        $proveedores = Provider::select('id', 'nombre')->get();
 
-        return view('producto.edit', compact('producto'));
+        return view('producto.edit', compact('producto','proveedores'));
     }
 
     /**

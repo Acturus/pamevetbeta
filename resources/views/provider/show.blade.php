@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('template_title')
-    {{ $detalleVentaProducto->name ?? 'Show Detalle Venta Producto' }}
+    {{ $provider->name ?? 'Datos de Proveedor' }}
 @endsection
 
 @section('content')
@@ -11,30 +11,34 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="float-left">
-                            <span class="card-title">Show Detalle Venta Producto</span>
+                            <span class="card-title">Información</span>
                         </div>
                         <div class="float-right">
-                            <a class="btn btn-primary" href="{{ route('detalle-venta-productos.index') }}"> Back</a>
+                            <a class="btn btn-sm btn-primary" href="{{ route('providers.index') }}"> Volver</a>
                         </div>
                     </div>
 
                     <div class="card-body">
                         
                         <div class="form-group">
-                            <strong>Id Venta:</strong>
-                            {{ $detalleVentaProducto->id_venta }}
+                            <strong>Nombre:</strong>
+                            {{ $provider->nombre }}
                         </div>
                         <div class="form-group">
-                            <strong>Id Producto:</strong>
-                            {{ $detalleVentaProducto->id_producto }}
+                            <strong>Contacto:</strong>
+                            {{ $provider->contacto }}
                         </div>
                         <div class="form-group">
-                            <strong>Cantidad:</strong>
-                            {{ $detalleVentaProducto->cantidad }}
+                            <strong>Correo contacto:</strong>
+                            {{ $provider->correo }}
                         </div>
                         <div class="form-group">
-                            <strong>Subtotal:</strong>
-                            {{ $detalleVentaProducto->subtotal }}
+                            <strong>Número de Contacto:</strong>
+                            {{ $provider->numero }}
+                        </div>
+                        <div class="form-group">
+                            <strong>Dirección:</strong>
+                            {{ $provider->direccion }}
                         </div>
 
                     </div>

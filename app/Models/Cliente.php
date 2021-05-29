@@ -31,7 +31,7 @@ class Cliente extends Model
 		'apellidos' => 'required|string|min:4|max:100',
 		'correo' => 'required|string|min:13|max:100|unique:clientes,correo',
         'celular'=> 'required|digits:9|unique:clientes,celular',
-		'direccion' => 'required|string|min:20|max:200',
+		'direccion' => 'required|string|min:20|max:300',
     ];
 
     protected $perPage = 20;

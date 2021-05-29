@@ -53,7 +53,7 @@ class DetalleVentaServicio extends Model
      */
     public function venta()
     {
-        return $this->hasOne('App\Models\Venta', 'id', 'id_venta');
+        return $this->belongsTo('App\Models\Venta', 'id', 'id_venta');
     }
     
 

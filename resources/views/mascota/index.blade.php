@@ -1,3 +1,21 @@
+@php
+
+    use Illuminate\Support\Str;
+
+    function age($born)
+    {
+        $reference = new DateTime;
+
+        $diff = $reference->diff(new DateTime($born));
+
+        $age = ($d = $diff->d) ? ' y '.$d.' '.Str::plural('día', $d) : '';
+        $age = ($m = $diff->m) ? ($age ? ', ' : ' y ').$m.' '.Str::plural('mes', $m).$age : $age;
+        $age = ($y = $diff->y) ? $y.' '.Str::plural('año', $y).$age  : $age;
+
+        return ($s = trim(trim($age, ', '), ' y ')) ? $s : 'Recién Nacido';
+    }
+@endphp
+
 @extends('layouts.app')
 
 @section('estilos')
@@ -54,16 +72,16 @@
                                 <tbody>
                                     @foreach ($mascotas as $mascota)
                                         <tr>
-                                            <td>{{ ++$i }}</td>
+                                            <td>{{ $loop->index+1 }}</td>
                                             
-											<td>{{ $mascota->id_cliente }}</td>
+											<td>{{ $mascota->cliente->nombres.' '.$mascota->cliente->apellidos }}</td>
 											<td>{{ $mascota->nombre }}</td>
 											<td>{{ $mascota->sexo ? 'macho' : 'hembra' }}</td>
-											<td>{{ $mascota->id_especie }}</td>
-											<td>{{ $mascota->fecha_nacimiento }}</td>
+											<td>{{ strtolower($mascota->especieMascota->nombre) }}</td>
+											<td>{{ age($mascota->fecha_nacimiento) }}</td>
 											<td>
                                                 @foreach(explode(',', $mascota->fotos) as $urlfoto)
-                                                    <a class="btn btn-sm btn-primary @if (!$loop->first) d-none @endif" href="{{ $urlfoto }}" data-lightbox="fotos{{ $i }}">Ver Fotos</a>
+                                                    <a class="btn btn-sm btn-primary @if (!$loop->first) d-none @endif" href="{{ $urlfoto }}" data-lightbox="fotos{{ $loop->index }}">Ver Fotos</a>
                                                 @endforeach
                                             </td>
                                             <td>
@@ -81,7 +99,6 @@
                         </div>
                     </div>
                 </div>
-                {!! $mascotas->links() !!}
             </div>
         </div>
     </div>

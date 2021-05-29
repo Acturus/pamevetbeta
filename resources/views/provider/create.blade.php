@@ -1,26 +1,25 @@
 @extends('layouts.app')
 
 @section('template_title')
-    Update Stock Producto
+    Registro de Proveedor
 @endsection
 
 @section('content')
     <section class="content container-fluid">
-        <div class="">
+        <div class="row">
             <div class="col-md-12">
 
                 @includeif('partials.errors')
 
                 <div class="card card-default">
                     <div class="card-header">
-                        <span class="card-title">Update Stock Producto</span>
+                        <span class="card-title">Crear Proveedor</span>
                     </div>
                     <div class="card-body">
-                        <form method="POST" action="{{ route('stock-productos.update', $stockProducto->id) }}"  role="form" enctype="multipart/form-data">
-                            {{ method_field('PATCH') }}
+                        <form method="POST" action="{{ route('providers.store') }}"  role="form" enctype="multipart/form-data">
                             @csrf
 
-                            @include('stock-producto.form')
+                            @include('provider.form')
 
                         </form>
                     </div>

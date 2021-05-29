@@ -55,14 +55,14 @@
                                 <tbody>
                                     @foreach ($productos as $producto)
                                         <tr>
-                                            <td>{{ ++$i }}</td>
+                                            <td>{{ $loop->index+1 }}</td>
                                             
 											<td>{{ $producto->nombre }}</td>
-											<td>{{ $producto->marca }}</td>
+											<td>{{ $producto->provider->nombre }}</td>
 											<td>{{ $producto->unidad_medida }}</td>
 											<td>
                                                 @foreach(explode(',', $producto->fotos) as $urlfoto)
-                                                    <a class="btn btn-sm btn-primary @if (!$loop->first) d-none @endif" href="{{ $urlfoto }}" data-lightbox="fotos{{ $i }}">Ver Fotos</a>
+                                                    <a class="btn btn-sm btn-primary @if (!$loop->first) d-none @endif" href="{{ $urlfoto }}" data-lightbox="fotos{{ $loop->index }}">Ver Fotos</a>
                                                 @endforeach
                                             </td>
 											<td>{{ $producto->cantidad }}</td>
@@ -84,7 +84,6 @@
                         </div>
                     </div>
                 </div>
-                {!! $productos->links() !!}
             </div>
         </div>
     </div>

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('template_title')
-    Detalle Venta Servicio
+    Proveedores
 @endsection
 
 @section('content')
@@ -13,14 +13,14 @@
                         <div style="display: flex; justify-content: space-between; align-items: center;">
 
                             <span id="card_title">
-                                {{ __('Detalle Venta Servicio') }}
+                                {{ __('Proveedores') }}
                             </span>
 
-                             <div class="float-right">
-                                <a href="{{ route('detalle-venta-servicios.create') }}" class="btn btn-primary btn-sm float-right"  data-placement="left">
-                                  {{ __('Create New') }}
+                            <div class="float-right">
+                                <a href="{{ route('providers.create') }}" class="btn btn-primary btn-sm float-right"  data-placement="left">
+                                    {{ __('Agregar Proveedor') }}
                                 </a>
-                              </div>
+                            </div>
                         </div>
                     </div>
                     @if ($message = Session::get('success'))
@@ -36,31 +36,31 @@
                                     <tr>
                                         <th>No</th>
                                         
-										<th>Id Venta</th>
-										<th>Id Servicio</th>
-										<th>Cantidad</th>
-										<th>Subtotal</th>
+										<th>Nombre</th>
+										<th>Nombre Contacto</th>
+										<th>Correo Contacto</th>
+										<th>Número Contacto</th>
 
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($detalleVentaServicios as $detalleVentaServicio)
+                                    @foreach ($providers as $provider)
                                         <tr>
-                                            <td>{{ ++$i }}</td>
+                                            <td>{{ $loop->index + 1 }}</td>
                                             
-											<td>{{ $detalleVentaServicio->id_venta }}</td>
-											<td>{{ $detalleVentaServicio->id_servicio }}</td>
-											<td>{{ $detalleVentaServicio->cantidad }}</td>
-											<td>{{ $detalleVentaServicio->subtotal }}</td>
+											<td>{{ $provider->nombre }}</td>
+											<td>{{ $provider->contacto }}</td>
+											<td>{{ $provider->correo }}</td>
+											<td>{{ $provider->numero }}</td>
 
                                             <td>
-                                                <form action="{{ route('detalle-venta-servicios.destroy',$detalleVentaServicio->id) }}" method="POST">
-                                                    <a class="btn btn-sm btn-primary " href="{{ route('detalle-venta-servicios.show',$detalleVentaServicio->id) }}"><i class="fa fa-fw fa-eye"></i> Show</a>
-                                                    <a class="btn btn-sm btn-success" href="{{ route('detalle-venta-servicios.edit',$detalleVentaServicio->id) }}"><i class="fa fa-fw fa-edit"></i> Edit</a>
+                                                <form action="{{ route('providers.destroy',$provider->id) }}" method="POST">
+                                                    <a class="btn btn-sm btn-primary " href="{{ route('providers.show',$provider->id) }}"><i class="fa fa-fw fa-eye"></i> Ver</a>
+                                                    <a class="btn btn-sm btn-success" href="{{ route('providers.edit',$provider->id) }}"><i class="fa fa-fw fa-edit"></i> Editar</a>
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash"></i> Delete</button>
+                                                    <button type="button" class="btn btn-danger btn-sm deler"><i class="fa fa-fw fa-trash"></i> Eliminar</button>
                                                 </form>
                                             </td>
                                         </tr>
@@ -70,8 +70,19 @@
                         </div>
                     </div>
                 </div>
-                {!! $detalleVentaServicios->links() !!}
             </div>
         </div>
     </div>
+@endsection
+
+@section('scripts')
+<script>
+    $(function(){
+        $(".deler").click(function(){
+            if(confirm("¿Desea eliminar el servicio?")){
+                $(this).parent().submit();
+            }
+        });
+    });
+</script>
 @endsection

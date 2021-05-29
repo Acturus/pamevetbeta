@@ -47,7 +47,7 @@ class Venta extends Model
      */
     public function cliente()
     {
-        return $this->hasOne('App\Models\Cliente', 'id', 'id_cliente');
+        return $this->belongsTo('App\Models\Cliente', 'id', 'id_cliente');
     }
     
     /**
@@ -55,8 +55,15 @@ class Venta extends Model
      */
     public function estadoVenta()
     {
-        return $this->hasOne('App\Models\EstadoVenta', 'id', 'id_estado');
+        return $this->belongsTo('App\Models\EstadoVenta', 'id', 'id_estado');
     }
     
+    public function detalleProducto(){
+        return $this->hasMany('\App\Models\DetalleVentaProducto', 'id_venta', 'id');
+    }
+
+    public function detalleServicio(){
+        return $this->hasMany('\App\Models\DetalleVentaServicio', 'id_venta', 'id');
+    }
 
 }

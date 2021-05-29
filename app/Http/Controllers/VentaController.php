@@ -47,6 +47,11 @@ class VentaController extends Controller
 
         $venta = Venta::create($request->all());
 
+        $venta->detalleProducto()->createMany([
+            [""=>"", ],
+            [],
+        ]);
+
         return redirect()->route('ventas.index')
             ->with('success', 'Completado registro de la venta');
     }

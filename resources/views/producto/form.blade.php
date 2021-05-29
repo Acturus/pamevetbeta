@@ -11,9 +11,13 @@
             {!! $errors->first('nombre', '<p class="invalid-feedback">:message</p>') !!}
         </div>
         <div class="form-group">
-            {{ Form::label('marca') }}
-            {{ Form::text('marca', $producto->marca, ['class' => 'form-control' . ($errors->has('marca') ? ' is-invalid' : ''), 'placeholder' => 'Marca']) }}
-            {!! $errors->first('marca', '<p class="invalid-feedback">:message</p>') !!}
+            {{ Form::label('id_proveedor', 'Proveedor') }}
+            <select name="id_proveedor" id="id_proveedor" class="form-control {{ $errors->has('id_proveedor') ? ' is-invalid' : '' }}">
+                <option value=""> - seleccione - </option>
+                @foreach ($proveedores as $proveedor)
+                    <option @if ($producto->id_proveedor !== null && $mascota->id_proveedor === $proveedor->id) selected @endif value="{{ $proveedor->id }}">{{ $proveedor->nombre }}</option>
+                @endforeach
+            </select>
         </div>
         <div class="form-group">
             {{ Form::label('unidad_medida') }}

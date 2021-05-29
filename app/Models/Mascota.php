@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -24,7 +25,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Mascota extends Model
 {
-    
+
     static $rules = [
 		'id_cliente' => 'required|numeric|min:1',
 		'nombre' => 'required|string|min:4|max:100',
@@ -35,8 +36,6 @@ class Mascota extends Model
         'fotos.*' => 'image',
     ];
 
-    protected $perPage = 20;
-
     /**
      * Attributes that should be mass-assignable.
      *
@@ -44,13 +43,14 @@ class Mascota extends Model
      */
     protected $fillable = ['id_cliente','nombre','sexo','id_especie','fecha_nacimiento','fotos'];
 
+    //protected $casts = ['fecha_nacimiento' => \App\Casts\BirthCast::class];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function cliente()
     {
-        return $this->hasOne('App\Models\Cliente', 'id', 'id_cliente');
+        return $this->belongsTo('App\Models\Cliente', 'id_cliente', 'id');
     }
     
     /**
@@ -58,7 +58,7 @@ class Mascota extends Model
      */
     public function especieMascota()
     {
-        return $this->hasOne('App\Models\EspecieMascota', 'id', 'id_especie');
+        return $this->belongsTo('App\Models\EspecieMascota', 'id_especie', 'id');
     }
     
 

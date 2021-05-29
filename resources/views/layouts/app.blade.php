@@ -81,10 +81,21 @@
                     <hr>
                 <li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/productos">
+                    <a class="nav-link" data-toggle="collapse" href="#ui-basic3" aria-expanded="false" aria-controls="ui-basic3">
                         <i class="ti-spray menu-icon"></i>
                         <span class="menu-title">Productos</span>
+                        <i class="menu-arrow"></i>
                     </a>
+                    <div class="collapse" id="ui-basic3">
+                        <ul class="nav flex-column sub-menu">
+                            <li class="nav-item">
+                                <a class="nav-link" href="/productos">Gestion</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/providers">Proveedores</a>
+                            </li>
+                        </ul>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/servicios">
@@ -121,13 +132,13 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/users">
                         <i class="ti-shield menu-icon"></i>
-                        <span class="menu-title">Gestion de Usuarios</span>
+                        <span class="menu-title">Gestión de Usuarios</span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/ventas">
                         <i class="ti-archive menu-icon"></i>
-                        <span class="menu-title">Gestion de Ventas</span>
+                        <span class="menu-title">Gestión de Ventas</span>
                     </a>
                 </li>
             </ul>

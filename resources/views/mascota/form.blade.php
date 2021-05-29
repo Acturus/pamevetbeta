@@ -44,7 +44,7 @@
                 <select name="id_cliente" id="id_cliente" class="form-control {{ $errors->has('id_cliente') ? ' is-invalid' : '' }}">
                     <option value=""> - seleccione - </option>
                     @foreach ($clientes as $cliente)
-                        <option @if ($mascota->id_cliente !== null && $mascota->id_cliente === $cliente->id) selected @endif value="{{ $cliente->id }}">{{ $cliente->nombres.' '.$cliente->apellidos }}</option>
+                        <option @if ($mascota->id_cliente !== null && $mascota->id_cliente === $cliente->id) selected @endif value="{{ $cliente->id }}">{{ $cliente->fullname }}</option>
                     @endforeach
                 </select>
                 {!! $errors->first('id_cliente', '<p class="invalid-feedback">:message</p>') !!}

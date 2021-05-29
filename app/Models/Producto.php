@@ -26,24 +26,22 @@ class Producto extends Model
 {
     
     static $rules = [
-      'nombre' => 'required|string|min:3|max:100',
-      'marca' => 'required|string|min:3|max:100',
-      'unidad_medida' => 'required|string|max:100',
-      'descripcion' => 'required|string|max:300',
-      'fotos' => 'required',
-      'fotos.*' => 'image',
-      'cantidad' => 'required|numeric|min:0',
-      'costo_unidad' => 'required|numeric|min:0.1',
+        'nombre' => 'required|string|min:3|max:100',
+        'id_proveedor' => 'required|numeric|min:1',
+        'unidad_medida' => 'required|string|max:100',
+        'descripcion' => 'required|string|max:300',
+        'fotos' => 'required',
+        'fotos.*' => 'image',
+        'cantidad' => 'required|numeric|min:0',
+        'costo_unidad' => 'required|numeric|min:0.1',
     ];
-  
-    protected $perPage = 20;
 
     /**
      * Attributes that should be mass-assignable.
      *
      * @var array
      */
-    protected $fillable = ['nombre','marca','unidad_medida','descripcion','fotos','cantidad','costo_unidad'];
+    protected $fillable = ['nombre','id_proveedor','unidad_medida','descripcion','fotos','cantidad','costo_unidad'];
 
 
     /**
@@ -52,6 +50,11 @@ class Producto extends Model
     public function detalleVentaProductos()
     {
         return $this->hasMany('App\Models\DetalleVentaProducto', 'id_producto', 'id');
+    }
+
+    public function provider()
+    {
+        return $this->belongsTo('App\Models\Provider', 'id_proveedor', 'id');
     }
     
 

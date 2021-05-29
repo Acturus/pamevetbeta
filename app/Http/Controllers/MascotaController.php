@@ -20,10 +20,9 @@ class MascotaController extends Controller
      */
     public function index()
     {
-        $mascotas = Mascota::paginate();
+        $mascotas = Mascota::with('cliente:id,nombres,apellidos','especieMascota:id,nombre')->get();
 
-        return view('mascota.index', compact('mascotas'))
-            ->with('i', (request()->input('page', 1) - 1) * $mascotas->perPage());
+        return view('mascota.index', compact('mascotas'));
     }
 
     /**
@@ -34,8 +33,8 @@ class MascotaController extends Controller
     public function create()
     {
         $mascota = new Mascota();
-        $clientes = Cliente::all();
-        $especies = EspecieMascota::all();
+        $clientes = Cliente::selectRaw("CONCAT (nombres, ' ', apellidos) as fullname, id")->get();
+        $especies = EspecieMascota::select('id', 'nombre')->get();
         
         return view('mascota.create',[
             'mascota' => $mascota,
@@ -148,8 +147,6 @@ class MascotaController extends Controller
      */
     public function destroy($id)
     {
-
-
         $mascota = Mascota::find($id)->delete();
 
         return redirect()->route('mascotas.index')
