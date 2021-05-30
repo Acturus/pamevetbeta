@@ -42,6 +42,46 @@
                         </div>
 
                     </div>
+
+                    <div class="p-4">
+                        <p class="h5">Detalles</p>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead class="thead">
+                                    <tr>  
+										<th>Tipo</th>
+										<th>ID</th>
+										<th>Nombre</th>
+										<th>Precio Unitario</th>
+										<th>Cantidad</th>
+										<th>Sub total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($venta->detalleProducto as $detalleProducto)
+                                        <tr>
+                                            <td>Producto</td>
+                                            <td>{{ $detalleProducto->id }}</td>
+                                            <td>{{ $detalleProducto->producto->nombre }}</td>
+                                            <td>{{ $detalleProducto->producto->costo_unidad }}</td>
+                                            <td>{{ $detalleProducto->cantidad }}</td>
+                                            <td>{{ $detalleProducto->subtotal }}</td>
+                                        </tr>
+                                    @endforeach
+                                    @foreach ($venta->detalleServicio as $detalleServicio)
+                                        <tr>
+                                            <td>Producto</td>
+                                            <td>{{ $detalleServicio->id }}</td>
+                                            <td>{{ $detalleServicio->servicio->nombre }}</td>
+                                            <td>{{ $detalleServicio->servicio->costo }}</td>
+                                            <td>{{ $detalleServicio->cantidad }}</td>
+                                            <td>{{ $detalleServicio->subtotal }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

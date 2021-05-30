@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cliente;
+use App\Models\DetalleVentaServicio;
+use App\Models\Producto;
+use App\Models\Servicio;
 use App\Models\Venta;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 /**
  * Class VentaController
@@ -18,10 +23,9 @@ class VentaController extends Controller
      */
     public function index()
     {
-        $ventas = Venta::paginate();
+        $ventas = Venta::with('cliente')->get();
 
-        return view('venta.index', compact('ventas'))
-            ->with('i', (request()->input('page', 1) - 1) * $ventas->perPage());
+        return view('venta.index', compact('ventas'));
     }
 
     /**
@@ -31,8 +35,15 @@ class VentaController extends Controller
      */
     public function create()
     {
-        $venta = new Venta();
-        return view('venta.create', compact('venta'));
+        $clientes = Cliente::all();
+        $productos = Producto::all();
+        $servicios = Servicio::all();
+
+        return view('venta.create',[
+            'clientes' => $clientes,
+            'productos' => $productos,
+            'servicios' => $servicios
+        ]);
     }
 
     /**
@@ -43,17 +54,62 @@ class VentaController extends Controller
      */
     public function store(Request $request)
     {
-        request()->validate(Venta::$rules);
-
-        $venta = Venta::create($request->all());
-
-        $venta->detalleProducto()->createMany([
-            [""=>"", ],
-            [],
+        $fields = $request->validate([
+            'id_cliente' => 'numeric|required|exists:clientes,id',
+            'tipo_entrega' => 'numeric|in:1,2|required',
+            'fecha_entrega' => 'required|date|after_or_equal:today',
+            'detalleServicio' => 'required_without:detalleProducto|array',
+            'detalleProducto' => 'required_without:detalleServicio|array',
+            'detalleServicio.*.id' => 'required|numeric|exists:servicios,id',
+            'detalleServicio.*.cantidad' => 'required|numeric|min:1',
+            'detalleServicio.*.subtotal' => 'required|numeric|min:1',
+            'detalleProducto.*.id' => 'required|numeric|exists:productos,id',
+            'detalleProducto.*.cantidad' => 'required|numeric|min:1',
+            'detalleProducto.*.subtotal' => 'required|numeric|min:1',
         ]);
 
-        return redirect()->route('ventas.index')
-            ->with('success', 'Completado registro de la venta');
+        
+        $venta_total = 0;
+        $detalle_servicios = [];
+        $detalle_productos = [];
+
+        foreach ($fields['detalleServicio'] as $detalle) {
+            $venta_total += $detalle['subtotal'];
+            array_push($detalle_servicios,[
+                'id_servicio' => $detalle['id'],
+                'subtotal' => $detalle['subtotal'],
+                'cantidad' => $detalle['cantidad']
+            ]);
+        }
+
+        foreach ($fields['detalleProducto'] as $detalle) {
+            $venta_total += $detalle['subtotal'];
+            array_push($detalle_productos,[
+                'id_producto' => $detalle['id'],
+                'subtotal' => $detalle['subtotal'],
+                'cantidad' => $detalle['cantidad']
+            ]);
+        }
+
+
+
+        $venta = Venta::create([
+            'codigo' => Str::random(8),
+            'id_cliente' => $fields['id_cliente'],
+            'id_estado' => 1,
+            'costo_total' => $venta_total,
+            'tipo_entrega' => $fields['tipo_entrega'],
+            'fecha_entrega' => $fields['fecha_entrega']
+        ]);
+
+        $venta->detalleProducto()->createMany($detalle_productos);
+        $venta->detalleServicio()->createMany($detalle_servicios);
+
+        return response()->json([
+            'message' => 'venta creada con exito'
+        ]);
+
+        
     }
 
     /**
@@ -64,7 +120,7 @@ class VentaController extends Controller
      */
     public function show($id)
     {
-        $venta = Venta::find($id);
+        $venta = Venta::where('id',$id)->with('detalleProducto','detalleProducto.producto','detalleServicio','detalleServicio.servicio')->first();
 
         return view('venta.show', compact('venta'));
     }
@@ -91,9 +147,11 @@ class VentaController extends Controller
      */
     public function update(Request $request, Venta $venta)
     {
-        request()->validate(Venta::$rules);
+        $fields = $request->validate([
+            'id_estado' => 'numeric|required|min:1|max:5'
+        ]);
 
-        $venta->update($request->all());
+        $venta->update($fields);
 
         return redirect()->route('ventas.index')
             ->with('success', 'Venta updated successfully');

@@ -1,34 +1,20 @@
 <div class="box box-info padding-1">
     <div class="box-body">
-        
-        <div class="form-group">
-            {{ Form::label('id_cliente') }}
-            {{ Form::text('id_cliente', $venta->id_cliente, ['class' => 'form-control' . ($errors->has('id_cliente') ? ' is-invalid' : ''), 'placeholder' => 'Id Cliente']) }}
-            {!! $errors->first('id_cliente', '<p class="invalid-feedback">:message</p>') !!}
-        </div>
+    
         <div class="form-group">
             {{ Form::label('id_estado') }}
-            {{ Form::text('id_estado', $venta->id_estado, ['class' => 'form-control' . ($errors->has('id_estado') ? ' is-invalid' : ''), 'placeholder' => 'Id Estado']) }}
+            <select name="id_estado" id="id_estado" class="form-control {{ $errors->has('id_estado') ? ' is-invalid' : '' }}" required>
+                <option value="1">Registrado</option>
+                <option value="2">Aprobado</option>
+                <option value="3">En camino</option>
+                <option value="4">Entregado</option>
+                <option value="5">Anulado</option>
+            </select>
             {!! $errors->first('id_estado', '<p class="invalid-feedback">:message</p>') !!}
-        </div>
-        <div class="form-group">
-            {{ Form::label('costo_total') }}
-            {{ Form::text('costo_total', $venta->costo_total, ['class' => 'form-control' . ($errors->has('costo_total') ? ' is-invalid' : ''), 'placeholder' => 'Costo Total']) }}
-            {!! $errors->first('costo_total', '<p class="invalid-feedback">:message</p>') !!}
-        </div>
-        <div class="form-group">
-            {{ Form::label('tipo_entrega') }}
-            {{ Form::text('tipo_entrega', $venta->tipo_entrega, ['class' => 'form-control' . ($errors->has('tipo_entrega') ? ' is-invalid' : ''), 'placeholder' => 'Tipo Entrega']) }}
-            {!! $errors->first('tipo_entrega', '<p class="invalid-feedback">:message</p>') !!}
-        </div>
-        <div class="form-group">
-            {{ Form::label('fecha_entrega') }}
-            {{ Form::text('fecha_entrega', $venta->fecha_entrega, ['class' => 'form-control' . ($errors->has('fecha_entrega') ? ' is-invalid' : ''), 'placeholder' => 'Fecha Entrega']) }}
-            {!! $errors->first('fecha_entrega', '<p class="invalid-feedback">:message</p>') !!}
         </div>
 
     </div>
     <div class="box-footer mt20">
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary">Guardar</button>
     </div>
 </div>

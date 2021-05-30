@@ -39,7 +39,7 @@ class Venta extends Model
      *
      * @var array
      */
-    protected $fillable = ['id_cliente','id_estado','costo_total','tipo_entrega','fecha_entrega'];
+    protected $fillable = ['codigo','id_cliente','id_estado','costo_total','tipo_entrega','fecha_entrega'];
 
 
     /**
@@ -47,7 +47,7 @@ class Venta extends Model
      */
     public function cliente()
     {
-        return $this->belongsTo('App\Models\Cliente', 'id', 'id_cliente');
+        return $this->belongsTo('App\Models\Cliente', 'id_cliente', 'id');
     }
     
     /**

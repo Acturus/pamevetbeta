@@ -29,4 +29,4 @@ Route::resource('clientes', Controladores\ClienteController::class)->middleware(
 Route::resource('especie-mascotas', Controladores\EspecieMascotaController::class)->middleware('auth');
 Route::resource('mascotas', Controladores\MascotaController::class)->middleware('auth');
 Route::resource('servicios', Controladores\ServicioController::class)->middleware('auth');
-Route::resource('ventas', Controladores\VentaController::class)->middleware('auth');
+Route::resource('ventas', Controladores\VentaController::class)->except(['store'])->middleware('auth');

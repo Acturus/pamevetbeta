@@ -34,10 +34,10 @@
                             <table class="table table-striped table-hover">
                                 <thead class="thead">
                                     <tr>
-                                        <th>No</th>
-                                        
+                                              
 										<th>Id Cliente</th>
-										<th>Id Estado</th>
+										<th>Cliente</th>
+										<th>Estado</th>
 										<th>Costo Total</th>
 										<th>Tipo Entrega</th>
 										<th>Fecha Entrega</th>
@@ -47,13 +47,27 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($ventas as $venta)
-                                        <tr>
-                                            <td>{{ ++$i }}</td>
-                                            
+                                        <tr>                                            
 											<td>{{ $venta->id_cliente }}</td>
-											<td>{{ $venta->id_estado }}</td>
+											<td>{{ $venta->cliente->nombres.' '.$venta->cliente->apellidos }}</td>
+                                            @switch($venta->id_estado)
+                                                    @case(1)
+                                                        <td>Registrado</td>
+                                                        @break
+                                                    @case(2)
+                                                        <td>Aprobado</td>
+                                                        @break
+                                                    @case(3)
+                                                        <td>En camino</td>
+                                                        @break
+                                                    @case(4)
+                                                        <td>Entregado</td>
+                                                        @break
+                                                    @default
+                                                        <td>Anulado</td>
+                                                @endswitch
 											<td>{{ $venta->costo_total }}</td>
-											<td>{{ $venta->tipo_entrega }}</td>
+											<td>{{ $venta->tipo_entrega === 1 ? 'A domicilio' : 'En tienda' }}</td>
 											<td>{{ $venta->fecha_entrega }}</td>
 
                                             <td>
@@ -72,7 +86,6 @@
                         </div>
                     </div>
                 </div>
-                {!! $ventas->links() !!}
             </div>
         </div>
     </div>
