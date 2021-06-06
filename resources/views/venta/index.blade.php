@@ -11,16 +11,14 @@
                 <div class="card">
                     <div class="card-header">
                         <div style="display: flex; justify-content: space-between; align-items: center;">
-
                             <span id="card_title">
                                 {{ __('Venta') }}
                             </span>
-
-                             <div class="float-right">
+                            <div class="float-right">
                                 <a href="{{ route('ventas.create') }}" class="btn btn-primary btn-sm float-right"  data-placement="left">
-                                  {{ __('Create New') }}
+                                    {{ __('Nueva Venta') }}
                                 </a>
-                              </div>
+                            </div>
                         </div>
                     </div>
                     @if ($message = Session::get('success'))
@@ -34,21 +32,19 @@
                             <table class="table table-striped table-hover">
                                 <thead class="thead">
                                     <tr>
-                                              
-										<th>Id Cliente</th>
+										<th>No</th>
 										<th>Cliente</th>
 										<th>Estado</th>
 										<th>Costo Total</th>
 										<th>Tipo Entrega</th>
 										<th>Fecha Entrega</th>
-
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($ventas as $venta)
                                         <tr>                                            
-											<td>{{ $venta->id_cliente }}</td>
+											<td>{{ $loop->index + 1 }}</td>
 											<td>{{ $venta->cliente->nombres.' '.$venta->cliente->apellidos }}</td>
                                             @switch($venta->id_estado)
                                                     @case(1)
@@ -71,13 +67,8 @@
 											<td>{{ $venta->fecha_entrega }}</td>
 
                                             <td>
-                                                <form action="{{ route('ventas.destroy',$venta->id) }}" method="POST">
-                                                    <a class="btn btn-sm btn-primary " href="{{ route('ventas.show',$venta->id) }}"><i class="fa fa-fw fa-eye"></i> Show</a>
-                                                    <a class="btn btn-sm btn-success" href="{{ route('ventas.edit',$venta->id) }}"><i class="fa fa-fw fa-edit"></i> Edit</a>
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash"></i> Delete</button>
-                                                </form>
+                                                <a class="btn btn-sm btn-primary " href="{{ route('ventas.show',$venta->id) }}"><i class="fa fa-fw fa-eye"></i> Detalles</a>
+                                                <a class="btn btn-sm btn-success" href="{{ route('ventas.edit',$venta->id) }}"><i class="fa fa-fw fa-edit"></i> Actualizar</a>
                                             </td>
                                         </tr>
                                     @endforeach

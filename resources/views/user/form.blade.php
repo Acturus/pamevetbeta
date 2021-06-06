@@ -33,7 +33,7 @@
                 <button type="button" class="btn btn-sm btn-warning passman text-white">Cambiar Contraseña</button>
                 <button type="button" class="btn btn-sm btn-danger passman" style="display:none">Cancelar Cambio</button>
             @else
-                <input type="password" name="password" id="password" disabled class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}" placeholder="Contraseña">
+                <input type="password" name="password" id="password" class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}" placeholder="Contraseña">
             @endif
             {!! $errors->first('password', '<p class="invalid-feedback">:message</p>') !!}
         </div>

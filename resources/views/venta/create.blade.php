@@ -16,7 +16,7 @@
 @endsection
 
 @section('template_title')
-    Create Venta
+    Nueva Venta
 @endsection
 
 @section('content')
@@ -28,7 +28,7 @@
 
                 <div class="card card-default" id="app">
                     <div class="card-header">
-                        <span class="card-title">Create Venta</span>
+                        <span class="card-title">Nueva Venta</span>
                     </div>
 
                     <div class="p-4" v-if="errors">
@@ -109,7 +109,7 @@
                                             </div>
                                         </form>
                                         <div class="d-flex justify-content-end">
-                                            <button class="btn btn-primary" v-on:click="addProduct"  :disabled="tempProduct.cant < 1">
+                                            <button class="btn btn-primary singleadd" v-on:click="addProduct" :disabled="tempProduct.cant < 1">
                                                 Agregar
                                             </button>
                                         </div>
@@ -146,7 +146,7 @@
                                             </div>
                                         </form>
                                         <div class="d-flex justify-content-end">
-                                            <button class="btn btn-primary"  v-on:click="addService" :disabled="tempService.cant < 1">
+                                            <button class="btn btn-primary singleadd" v-on:click="addService" :disabled="tempService.cant < 1">
                                                 Agregar
                                             </button>
                                         </div>
@@ -212,7 +212,7 @@
     <script src="https://cdn.jsdelivr.net/npm/gijgo@1.9.13/js/gijgo.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gijgo@1.9.13/js/messages/messages.es-es.js"></script>
     <script>
-        const hoy = new Date();
+        const ayer = function(d){ d.setDate(d.getDate()-1); return d}(new Date);
 
         $(function() {
 
@@ -220,11 +220,15 @@
                 uiLibrary: 'bootstrap4',
                 locale: 'es-es',
                 format: 'yyyy-mm-dd',
-                maxDate: hoy
+                minDate: ayer
             });
 
             $('#fecha_entrega').click(function() {
                 $(this).next().click();
+            });
+
+            $("body").on("click", ".singleadd", function(){
+                $(this).parent().prev().get(0).reset();
             });
         });
 
@@ -246,7 +250,7 @@
                     },
                     tempService : {
                         value : "",
-                        cant : 0
+                        cant : 1
                     },
                     tempProduct  :{
                         value : "",
@@ -277,6 +281,8 @@
                         return
                     }
 
+
+
                     this.body.detalleServicio.push({
                         id : this.tempService.value[0],
                         costo_unitario : this.tempService.value[1],
@@ -289,7 +295,7 @@
                 },
                 addProduct(){
                     if(this.tempProduct.value === "" || this.tempProduct.cant === 0){
-                        alert('Seleccione un servicio y una cantidad mayor a 0')
+                        alert('Seleccione un producto y una cantidad mayor a 0')
                         return
                     }
 

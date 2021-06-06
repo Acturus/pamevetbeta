@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ChangeVentaMail;
 use App\Models\Cliente;
 use App\Models\DetalleVentaServicio;
 use App\Models\Producto;
 use App\Models\Servicio;
 use App\Models\Venta;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
 /**
@@ -152,6 +154,8 @@ class VentaController extends Controller
         ]);
 
         $venta->update($fields);
+
+        Mail::to('arroba@arroba.com')->send(new ChangeVentaMail("holi onichan uwu"));
 
         return redirect()->route('ventas.index')
             ->with('success', 'Venta updated successfully');
