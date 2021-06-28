@@ -43,7 +43,7 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($ventas as $venta)
-                                        <tr>                                            
+                                        <tr>
 											<td>{{ $loop->index + 1 }}</td>
 											<td>{{ $venta->cliente->nombres.' '.$venta->cliente->apellidos }}</td>
                                             @switch($venta->id_estado)
@@ -68,7 +68,7 @@
 
                                             <td>
                                                 <a class="btn btn-sm btn-primary " href="{{ route('ventas.show',$venta->id) }}"><i class="fa fa-fw fa-eye"></i> Detalles</a>
-                                                <a class="btn btn-sm btn-success" href="{{ route('ventas.edit',$venta->id) }}"><i class="fa fa-fw fa-edit"></i> Actualizar</a>
+                                                <a class="btn btn-sm btn-success" href="{{ route('ventas.edit',$venta->id) }}"><i class="fa fa-fw fa-edit"></i> Ver/Actualizar Tracking</a>
                                             </td>
                                         </tr>
                                     @endforeach

@@ -11,7 +11,6 @@
             top: 12px;
             left: 14px;
         }
-
     </style>
 @endsection
 
@@ -39,9 +38,9 @@
                             </ul>
                         </div>
                     </div>
-
-                    <div class="p-4">
-                        <form>
+                    <br>
+                    <div class="px-4">
+                        <form method="POST" action="javascript:">
                             <div class="form-group">
                                 <label for="id_cliente">Cliente</label>
                                 <select name="id_cliente" id="id_cliente" required v-model="body.id_cliente"
@@ -54,28 +53,32 @@
                                 </select>
                                 {!! $errors->first('id_cliente', '<p class="invalid-feedback">:message</p>') !!}
                             </div>
-                            <div class="form-group row">
+                            <div class="form-group row mb-2">
                                 <div class="col-7">
-                                    <label for="tipo_entrega">Tipo de Entrega</label>
-                                    <select name="tipo_entrega" id="tipo_entrega" required v-model="body.tipo_entrega"
-                                        class="form-control {{ $errors->has('tipo_entrega') ? ' is-invalid' : '' }}">
+                                    <label for="tipo_entrega">Lugar de Entrega</label>
+                                    <select name="tipo_entrega" id="tipo_entrega" v-model="body.tipo_entrega" class="form-control {{ $errors->has('tipo_entrega') ? ' is-invalid' : '' }}">
                                         <option selected value="">SELECCIONE</option>
-                                        <option :value="1">En tienda</option>
-                                        <option :value="2">A domicilio</option>
+                                        <option :value="1">Tienda Pamevet</option>
+                                        <option :value="2">Domicilio de Cliente</option>
+                                        <option :value="3">Otra Dirección</option>
                                     </select>
                                     {!! $errors->first('tipo_entrega', '<p class="invalid-feedback">:message</p>') !!}
                                 </div>
                                 <div class="col-5">
-                                    {{ Form::label('fecha_entrega', 'Fechas de Entrega') }}
+                                    {{ Form::label('fecha_entrega', 'Fecha de Entrega') }}
                                     <input type="text" readonly id="fecha_entrega" name="fecha_entrega" ref="fecha_entrega"
                                         class="bg-white {{ $errors->has('fecha_entrega') ? ' is-invalid' : '' }}"
                                         placeholder="dd/mm/yyyy">
                                     {!! $errors->first('fecha_entrega', '<p class="invalid-feedback">:message</p>') !!}
                                 </div>
                             </div>
+                            <div class="form-group mb-2 mt-4 d-none">
+                                {{ Form::label('direccion', 'Dirección') }}
+                                {{ Form::text('direccion', '', ['class' => 'form-control' . ($errors->has('direccion') ? ' is-invalid' : ''), 'placeholder' => 'Primero seleccione el tipo de entrega', 'disabled'=>true]) }}
+                                {!! $errors->first('direccion', '<p class="invalid-feedback">:message</p>') !!}
+                            </div>
                         </form>
                     </div>
-
                     <div class="card-body">
                         <div id="accordion">
                             <div class="card">
@@ -83,7 +86,7 @@
                                     <h5 class="mb-0">
                                         <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne"
                                             aria-expanded="true" aria-controls="collapseOne">
-                                            Agregar Productos
+                                            Listado de Productos
                                         </button>
                                     </h5>
                                 </div>
@@ -97,7 +100,8 @@
                                                 <select name="id_producto" id="id_producto" class="form-control" v-model="tempProduct.value">
                                                     <option value="">Seleccione</option>
                                                     @foreach ($productos as $producto)
-                                                        <option :value="[{{ $producto->id }},{{ $producto->costo_unidad }}]">{{ $producto->nombre }}
+                                                        <option :value="[{{ $producto->id }},{{ $producto->costo_unidad }},'{{ $producto->nombre }}']">
+                                                            {{ $producto->nombre }}
                                                         </option>
                                                     @endforeach
                                                 </select>
@@ -116,43 +120,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="card">
-                                <div class="card-header" id="headingTwo">
-                                    <h5 class="mb-0">
-                                        <button class="btn btn-link collapsed" data-toggle="collapse"
-                                            data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                            Agregar Servicio
-                                        </button>
-                                    </h5>
-                                </div>
-                                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
-                                    data-parent="#accordion">
-                                    <div class="card-body">
-                                        <form>
-                                            <div class="form-group">
-                                                <label for="id_producto">Servicio</label>
-                                                <select name="id_producto" id="id_producto" class="form-control" v-model="tempService.value">
-                                                    <option value="">Seleccione</option>
-                                                    @foreach ($servicios as $servicio)
-                                                        <option :value="[{{ $servicio->id }},{{ $servicio->costo }}]">{{ $servicio->nombre }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="producto.cantidad">Cantidad</label>
-                                                <input class="form-control" type="number" id="producto.cantidad" v-model="tempService.cant"
-                                                    name="producto.cantidad">
-                                            </div>
-                                        </form>
-                                        <div class="d-flex justify-content-end">
-                                            <button class="btn btn-primary singleadd" v-on:click="addService" :disabled="tempService.cant < 1">
-                                                Agregar
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
 
@@ -161,26 +128,18 @@
                             <table class="table table-striped table-hover">
                                 <thead class="thead">
                                     <tr>
-                                        <th>Tipo</th>
-                                        <th>Codigo</th>
-                                        <th>Cantidad</th>
+                                        <th>Nro</th>
+                                        <th>Nombre</th>
                                         <th>Precio Unit.</th>
+                                        <th>Cantidad</th>
                                         <th>Sub total</th>
                                         <th>Opciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="(detalle,index) in body.detalleServicio" :key="index">
-                                        <td>Servicio</td>
-                                        <td>@{{ detalle.id }}</td>
-                                        <td>@{{ detalle.costo_unitario }}</td>
-                                        <td>@{{ detalle.cantidad }}</td>
-                                        <td>@{{ detalle.subtotal }}</td>
-                                        <td><button class="btn btn-danger" v-on:click="deleteService(detalle.index)">Eliminar</button></td>
-                                    </tr>
                                     <tr v-for="(detalle,index) in body.detalleProducto" :key="index">
-                                        <td>Producto</td>
-                                        <td>@{{ detalle.id }}</td>
+                                        <td>@{{ index + 1 }}</td>
+                                        <td>@{{ detalle.nombre }}</td>
                                         <td>@{{ detalle.costo_unitario }}</td>
                                         <td>@{{ detalle.cantidad }}</td>
                                         <td>@{{ detalle.subtotal }}</td>
@@ -230,8 +189,12 @@
             $("body").on("click", ".singleadd", function(){
                 $(this).parent().prev().get(0).reset();
             });
-        });
 
+            $("#tipo_entrega").change(function(){
+                $("#direccion").parent().toggleClass("d-none", this.value!=3)
+                this.value==3 ? $("#direccion").removeAttr('disabled') : $("#direccion").attr('disabled', true);
+            });
+        });
     </script>
     <script src="https://unpkg.com/vue@next"></script>
     <script>
@@ -248,51 +211,24 @@
                         detalleServicio: [],
                         detalleProducto: [],
                     },
-                    tempService : {
-                        value : "",
-                        cant : 1
-                    },
                     tempProduct  :{
                         value : "",
-                        cant : 0 
+                        cant : 0
                     }
                 }
             },
             computed :{
                 precioTotal(){
-                    
+
                     let productos = 0
                     this.body.detalleProducto.forEach(elm => {
                         productos += elm.subtotal
                     })
 
-                    let servicios = 0
-                    this.body.detalleServicio.forEach(elm => {
-                        servicios += elm.subtotal
-                    })
-                    
-                    return productos + servicios
+                    return productos
                 }
             },
             methods :{
-                addService(){
-                    if(this.tempService.value === "" || this.tempService.cant === 0){
-                        alert('Seleccione un servicio y una cantidad mayor a 0')
-                        return
-                    }
-
-
-
-                    this.body.detalleServicio.push({
-                        id : this.tempService.value[0],
-                        costo_unitario : this.tempService.value[1],
-                        cantidad : this.tempService.cant,
-                        subtotal : parseFloat((this.tempService.cant * this.tempService.value[1]).toFixed(2))
-                    })
-                },
-                deleteService(index){
-                    this.body.detalleServicio.splice(index,1);
-                },
                 addProduct(){
                     if(this.tempProduct.value === "" || this.tempProduct.cant === 0){
                         alert('Seleccione un producto y una cantidad mayor a 0')
@@ -302,6 +238,7 @@
                     this.body.detalleProducto.push({
                         id : this.tempProduct.value[0],
                         costo_unitario : this.tempProduct.value[1],
+                        nombre: this.tempProduct.value[2],
                         cantidad : this.tempProduct.cant,
                         subtotal : parseFloat((this.tempProduct.cant * this.tempProduct.value[1]).toFixed(2))
                     })
@@ -311,7 +248,7 @@
                 },
                 validateForm(){
                     if(this.body.id_cliente === ""){
-                        return "Seleccione un cliente"
+                        return "Debe indicar el cliente"
                     }
 
                     if(this.body.tipo_entrega === ""){
@@ -319,18 +256,16 @@
                     }
 
                     if(this.$refs.fecha_entrega.value === ""){
-                        return 'Seleccione una fecha de entrega'
+                        return "Seleccione una fecha de entrega"
                     }
 
-
-                    if(this.body.detalleProducto.length <= 0 && this.body.detalleServicio.length <= 0 ){
-                        return "agrege un Producto o Servicio"
+                    if(this.body.detalleProducto.length <= 0){
+                        return "Debe agregar almenos un producto"
                     }
 
                     return -1;
                 },
                 send(){
-
                     const message = this.validateForm()
 
                     if(message !== -1){
@@ -362,13 +297,11 @@
                         alert('La venta se creó con satisfactoriamente, será redirigido al listado')
 
                         window.location.href = '{{ route("ventas.index") }}'
-
                     })
                 }
             }
         }
 
         Vue.createApp(App).mount('#app')
-
     </script>
 @endsection

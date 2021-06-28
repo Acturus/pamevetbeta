@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('template_title')
-    Create Servicio
+    Registrar Servicio
 @endsection
 
 @section('content')
@@ -13,7 +13,7 @@
 
                 <div class="card card-default">
                     <div class="card-header">
-                        <span class="card-title">Create Servicio</span>
+                        <span class="card-title">Registrar Servicio</span>
                     </div>
                     <div class="card-body">
                         <form method="POST" action="{{ route('servicios.store') }}"  role="form" enctype="multipart/form-data">

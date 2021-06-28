@@ -4,7 +4,7 @@
 
 <div class="box box-info padding-1">
     <div class="box-body">
-        
+
         <div class="form-group">
             {{ Form::label('nombre') }}
             {{ Form::text('nombre', $producto->nombre, ['class' => 'form-control' . ($errors->has('nombre') ? ' is-invalid' : ''), 'placeholder' => 'Nombre']) }}
@@ -15,7 +15,7 @@
             <select name="id_proveedor" id="id_proveedor" class="form-control {{ $errors->has('id_proveedor') ? ' is-invalid' : '' }}">
                 <option value=""> - seleccione - </option>
                 @foreach ($proveedores as $proveedor)
-                    <option @if ($producto->id_proveedor !== null && $mascota->id_proveedor === $proveedor->id) selected @endif value="{{ $proveedor->id }}">{{ $proveedor->nombre }}</option>
+                    <option @if ($producto->id_proveedor !== null && $producto->id_proveedor === $proveedor->id) selected @endif value="{{ $proveedor->id }}">{{ $proveedor->nombre }}</option>
                 @endforeach
             </select>
         </div>

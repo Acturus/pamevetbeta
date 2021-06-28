@@ -57,7 +57,7 @@ class ProductoController extends Controller
         }
 
         $newProduct = $request->except('fotos');
-        $newProduct['fotos'] = substr($images,0,-1); 
+        $newProduct['fotos'] = substr($images,0,-1);
 
         Producto::create($newProduct);
 
@@ -73,7 +73,7 @@ class ProductoController extends Controller
      */
     public function show($id)
     {
-        $producto = Producto::find($id);
+        $producto = Producto::with('provider:id,nombre')->find($id);
 
         return view('producto.show', compact('producto'));
     }
@@ -116,7 +116,7 @@ class ProductoController extends Controller
             }
 
             $newProduct = $request->except('fotos');
-            $newProduct['fotos'] = substr($images,0,-1); 
+            $newProduct['fotos'] = substr($images,0,-1);
             $producto->update($newProduct);
         }
         else{

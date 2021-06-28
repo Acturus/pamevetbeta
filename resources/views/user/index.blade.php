@@ -35,7 +35,7 @@
                                 <thead class="thead">
                                     <tr>
                                         <th>No</th>
-                                        
+
 										<th>Nombres</th>
 										<th>Apellidos</th>
 										<th>Email</th>
@@ -48,11 +48,11 @@
                                     @foreach ($users as $user)
                                         <tr>
                                             <td>{{ ++$i }}</td>
-                                            
+
 											<td>{{ $user->nombres }}</td>
 											<td>{{ $user->apellidos }}</td>
 											<td>{{ $user->email }}</td>
-											<td>{{ $user->id_rol ? 'Administrador' : 'Usuario' }}</td>
+											<td>{{ $user->id_rol<2 ? 'Administrador' : 'Veterinario' }}</td>
 
                                             <td>
                                                 <a class="btn btn-sm btn-success" href="{{ route('users.edit',$user->id) }}"><i class="fa fa-fw fa-edit"></i> Editar</a>

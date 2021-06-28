@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('template_title')
-    {{ $venta->name ?? 'Show Venta' }}
+    {{ $venta->name ?? 'Detalle de Venta' }}
 @endsection
 
 @section('content')
@@ -11,46 +11,35 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="float-left">
-                            <span class="card-title">Show Venta</span>
+                            <span class="card-title">Detalle de Venta</span>
                         </div>
                         <div class="float-right">
-                            <a class="btn btn-primary" href="{{ route('ventas.index') }}"> Back</a>
+                            <a class="btn btn-primary btn-sm" href="{{ route('ventas.index') }}"> Volver</a>
                         </div>
                     </div>
 
                     <div class="card-body">
-                        
-                        <div class="form-group">
-                            <strong>Id Cliente:</strong>
-                            {{ $venta->id_cliente }}
-                        </div>
-                        <div class="form-group">
-                            <strong>Id Estado:</strong>
-                            {{ $venta->id_estado }}
-                        </div>
                         <div class="form-group">
                             <strong>Costo Total:</strong>
                             {{ $venta->costo_total }}
                         </div>
                         <div class="form-group">
                             <strong>Tipo Entrega:</strong>
-                            {{ $venta->tipo_entrega }}
+                            {{ $venta->tipo_entrega === 1 ? 'A domicilio' : 'En tienda' }}
                         </div>
                         <div class="form-group">
                             <strong>Fecha Entrega:</strong>
                             {{ $venta->fecha_entrega }}
                         </div>
-
                     </div>
 
                     <div class="p-4">
-                        <p class="h5">Detalles</p>
+                        <p class="h5">Listado de Productos</p>
                         <div class="table-responsive">
                             <table class="table table-striped table-hover">
                                 <thead class="thead">
-                                    <tr>  
-										<th>Tipo</th>
-										<th>ID</th>
+                                    <tr>
+										<th>Nro.</th>
 										<th>Nombre</th>
 										<th>Precio Unitario</th>
 										<th>Cantidad</th>
@@ -60,22 +49,11 @@
                                 <tbody>
                                     @foreach ($venta->detalleProducto as $detalleProducto)
                                         <tr>
-                                            <td>Producto</td>
-                                            <td>{{ $detalleProducto->id }}</td>
+                                            <td>{{ $loop->index+1 }}</td>
                                             <td>{{ $detalleProducto->producto->nombre }}</td>
                                             <td>{{ $detalleProducto->producto->costo_unidad }}</td>
                                             <td>{{ $detalleProducto->cantidad }}</td>
                                             <td>{{ $detalleProducto->subtotal }}</td>
-                                        </tr>
-                                    @endforeach
-                                    @foreach ($venta->detalleServicio as $detalleServicio)
-                                        <tr>
-                                            <td>Producto</td>
-                                            <td>{{ $detalleServicio->id }}</td>
-                                            <td>{{ $detalleServicio->servicio->nombre }}</td>
-                                            <td>{{ $detalleServicio->servicio->costo }}</td>
-                                            <td>{{ $detalleServicio->cantidad }}</td>
-                                            <td>{{ $detalleServicio->subtotal }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>

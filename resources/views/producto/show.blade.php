@@ -19,14 +19,14 @@
                     </div>
 
                     <div class="card-body">
-                        
+
                         <div class="form-group">
                             <strong>Nombre:</strong>
                             {{ $producto->nombre }}
                         </div>
                         <div class="form-group">
                             <strong>Marca:</strong>
-                            {{ $producto->marca }}
+                            {{ $producto->provider->nombre }}
                         </div>
                         <div class="form-group">
                             <strong>Unidad Medida:</strong>

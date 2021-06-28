@@ -4,15 +4,14 @@ namespace App\Casts;
 use Carbon\Carbon;
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 
-class BirthCast implements CastsAttributes
+class MyDateTime implements CastsAttributes
 {
 
     public function get($model, string $key, $value, array $attributes)
     {
-        $hoy = Carbon::now();
-        $naci = Carbon::parse($value);
+        $fecha = Carbon::parse($value);
 
-        return $hoy->diffForHumans($naci);
+        return $fecha->format('d/m/Y h:i a');
     }
 
     public function set($model, string $key, $value, array $attributes)

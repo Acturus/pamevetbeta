@@ -35,7 +35,7 @@
                                 <thead class="thead">
                                     <tr>
                                         <th>No</th>
-                                        
+
 										<th>Nombre</th>
 										<th>Tipo</th>
 										<th>Nombre Científico</th>
@@ -48,7 +48,7 @@
                                     @foreach ($especieMascotas as $especieMascota)
                                         <tr>
                                             <td>{{ ++$i }}</td>
-                                            
+
 											<td>{{ $especieMascota->nombre }}</td>
 											<td>{{ $especieMascota->tipo }}</td>
 											<td>{{ $especieMascota->nombre_cientifico }}</td>
@@ -56,10 +56,10 @@
 
                                             <td>
                                                 <form action="{{ route('especie-mascotas.destroy',$especieMascota->id) }}" method="POST">
-                                                    <a class="btn btn-sm btn-success" href="{{ route('especie-mascotas.edit',$especieMascota->id) }}"><i class="fa fa-fw fa-edit"></i> Edit</a>
+                                                    <a class="btn btn-sm btn-success" href="{{ route('especie-mascotas.edit',$especieMascota->id) }}"><i class="fa fa-fw fa-edit"></i> Editar</a>
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="button" class="btn btn-danger btn-sm deler"><i class="fa fa-fw fa-trash"></i> Delete</button>
+                                                    <button type="button" class="btn btn-danger btn-sm deler"><i class="fa fa-fw fa-trash"></i> Eliminar</button>
                                                 </form>
                                             </td>
                                         </tr>

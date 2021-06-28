@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('template_title')
-    Create User
+    Nuevo Usuario
 @endsection
 
 @section('content')

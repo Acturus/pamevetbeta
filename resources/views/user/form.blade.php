@@ -1,6 +1,6 @@
 <div class="box box-info padding-1">
     <div class="box-body">
-        
+
         <div class="form-group">
             {{ Form::label('nombres') }}
             {{ Form::text('nombres', $user->nombres, ['class' => 'form-control' . ($errors->has('nombres') ? ' is-invalid' : ''), 'placeholder' => 'Nombres']) }}
@@ -22,12 +22,12 @@
             {!! $errors->first('estado', '<p class="invalid-feedback">:message</p>') !!}
         </div> --}}
         <div class="form-group">
-            {{ Form::label('Roles') }}
-            {{ Form::select('id_rol', ['1' => 'Administrador', '2' => 'Veterinario'], $user->id_rol, ['class' => 'form-control' . ($errors->has('id_rol') ? ' is-invalid' : ''), 'placeholder' => '- seleccione -']) }}
+            {{ Form::label('id_rol', 'Rol') }}
+            {{ Form::select('id_rol', ['1' => 'Administrador', '2' => 'Veterinario', '3' => 'Vendedor'], $user->id_rol, ['class' => 'form-control' . ($errors->has('id_rol') ? ' is-invalid' : ''), 'placeholder' => '- seleccione -']) }}
             {!! $errors->first('id_rol', '<p class="invalid-feedback">:message</p>') !!}
         </div>
         <div class="form-group">
-            {{ Form::label('Contraseña') }}
+            {{ Form::label('password', 'Contraseña') }}
             @if(Route::is('users.edit'))
                 <input type="password" name="password" id="password" disabled class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}" placeholder="Sin cambios">
                 <button type="button" class="btn btn-sm btn-warning passman text-white">Cambiar Contraseña</button>

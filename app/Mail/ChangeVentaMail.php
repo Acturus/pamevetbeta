@@ -3,7 +3,6 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
@@ -11,17 +10,25 @@ class ChangeVentaMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    protected $message;
+    protected $costotal;
+    protected $direntrega;
+    protected $codigoped;
+    protected $today;
+    protected $productos;
+    protected $servicios;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(String $message)
+    public function __construct(String $costotal, String $direntrega, String $codigoped, String $today, $productos)
     {
-        //alguna variable que quieras recibir via constructor
-        $this->message = $message;
+        $this->costotal = $costotal;
+        $this->direntrega = $direntrega;
+        $this->codigoped = $codigoped;
+        $this->today = $today;
+        $this->productos = $productos;
     }
 
     /**
@@ -31,8 +38,12 @@ class ChangeVentaMail extends Mailable
      */
     public function build()
     {
-        return $this->view('mail.changeStateVenta',[
-            "msg" => $this->message
+        return $this->subject('Compra Registrada')->view('mail.changeStateVenta', [
+            "costotal" => $this->costotal,
+            "direntrega" => $this->direntrega,
+            "codigoped" => $this->codigoped,
+            "today" => $this->today,
+            "productos" => $this->productos
         ]);
     }
 }

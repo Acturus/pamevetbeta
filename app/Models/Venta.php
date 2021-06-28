@@ -23,15 +23,6 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Venta extends Model
 {
-    
-    static $rules = [
-		'id_cliente' => 'required',
-		'id_estado' => 'required',
-		'costo_total' => 'required',
-		'tipo_entrega' => 'required',
-		'fecha_entrega' => 'required',
-    ];
-
     protected $perPage = 20;
 
     /**
@@ -39,8 +30,7 @@ class Venta extends Model
      *
      * @var array
      */
-    protected $fillable = ['codigo','id_cliente','id_estado','costo_total','tipo_entrega','fecha_entrega'];
-
+    protected $fillable = ['codigo','id_cliente','id_estado','costo_total','tipo_entrega','fecha_entrega','motivo_anulacion','hora_entrega'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
@@ -49,7 +39,7 @@ class Venta extends Model
     {
         return $this->belongsTo('App\Models\Cliente', 'id_cliente', 'id');
     }
-    
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
@@ -57,13 +47,8 @@ class Venta extends Model
     {
         return $this->belongsTo('App\Models\EstadoVenta', 'id', 'id_estado');
     }
-    
+
     public function detalleProducto(){
         return $this->hasMany('\App\Models\DetalleVentaProducto', 'id_venta', 'id');
     }
-
-    public function detalleServicio(){
-        return $this->hasMany('\App\Models\DetalleVentaServicio', 'id_venta', 'id');
-    }
-
 }

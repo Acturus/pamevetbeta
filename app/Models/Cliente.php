@@ -24,7 +24,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Cliente extends Model
 {
-    
+
     static $rules = [
 		'documento_de_identidad' => 'required|numeric|digits_between:8,15|unique:clientes,documento_de_identidad',
 		'nombres' => 'required|string|min:4|max:100',
@@ -51,7 +51,7 @@ class Cliente extends Model
     {
         return $this->hasMany('App\Models\Mascota', 'id_cliente', 'id');
     }
-    
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -59,6 +59,10 @@ class Cliente extends Model
     {
         return $this->hasMany('App\Models\Venta', 'id_cliente', 'id');
     }
-    
+
+    public function consultas()
+    {
+        return $this->hasMany('App\Models\Consulta', 'id_cliente', 'id');
+    }
 
 }

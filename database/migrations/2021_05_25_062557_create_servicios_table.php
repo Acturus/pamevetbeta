@@ -18,6 +18,8 @@ class CreateServiciosTable extends Migration
             $table->string('nombre', 100)->unique();
             $table->string('descripcion', 300);
             $table->decimal('costo', 6, 2);
+            $table->unsignedTinyInteger('duracion_horas');
+            $table->unsignedTinyInteger('duracion_minutos');
             $table->string('foto', 300)->nullable();
             $table->timestamps();
         });

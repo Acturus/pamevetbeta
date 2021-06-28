@@ -6,7 +6,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@section('template_title') Dashboard @show</title>    
+    <title>@section('template_title') Dashboard @show</title>
 
     <link rel="stylesheet" href="{{ asset('css/themify-icons.css') }}">
     <link rel="stylesheet" href="{{ asset('css/vendor.bundle.base.css') }}">
@@ -65,16 +65,17 @@
     <main class="container-fluid page-body-wrapper">
         <nav class="sidebar sidebar-offcanvas" id="sidebar">
             <ul class="nav">
+            @if (auth()->user()->id_rol != 2)
                 <li class="nav-item">
                     <a class="nav-link bg-success rounded-lg" href="/ventas/create">
                         <i class="ti-headphone-alt menu-icon text-white"></i>
-                        <span class="menu-title text-white">Compra</span>
+                        <span class="menu-title text-white">Nueva Venta</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link bg-primary rounded-lg" href="/clientes/create">
-                        <i class="ti-user menu-icon text-white"></i>
-                        <span class="menu-title text-white">Nuevo Cliente</span>
+                    <a class="nav-link bg-primary rounded-lg" href="/consultas/create">
+                        <i class="ti-widget menu-icon text-white"></i>
+                        <span class="menu-title text-white">Nueva Consulta</span>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -89,7 +90,7 @@
                     <div class="collapse" id="ui-basic3">
                         <ul class="nav flex-column sub-menu">
                             <li class="nav-item">
-                                <a class="nav-link" href="/productos">Gestion</a>
+                                <a class="nav-link" href="/productos">Gestión</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="/providers">Proveedores</a>
@@ -109,6 +110,14 @@
                         <span class="menu-title">Clientes</span>
                     </a>
                 </li>
+            @else
+            <li class="nav-item">
+                <a class="nav-link" href="/consultas/atencion">
+                    <i class="ti-archive menu-icon"></i>
+                    <span class="menu-title">Atención de Consultas</span>
+                </a>
+            </li>
+            @endif
                 <li class="nav-item">
                     <a class="nav-link" data-toggle="collapse" href="#ui-basic2" aria-expanded="false" aria-controls="ui-basic2">
                         <i class="ti-github menu-icon"></i>
@@ -126,21 +135,42 @@
                         </ul>
                     </div>
                 </li>
+            @if (auth()->user()->id_rol != 2)
                 <li class="nav-item">
                     <hr>
                 <li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/users">
-                        <i class="ti-shield menu-icon"></i>
-                        <span class="menu-title">Gestión de Usuarios</span>
-                    </a>
-                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/ventas">
                         <i class="ti-archive menu-icon"></i>
                         <span class="menu-title">Gestión de Ventas</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="collapse" href="#ui-basic4" aria-expanded="false" aria-controls="ui-basic4">
+                        <i class="ti-notepad menu-icon"></i>
+                        <span class="menu-title">Consultas</span>
+                        <i class="menu-arrow"></i>
+                    </a>
+                    <div class="collapse" id="ui-basic4">
+                        <ul class="nav flex-column sub-menu">
+                            <li class="nav-item">
+                                <a class="nav-link" href="/consultas">Listado</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/consultas/programacion">Programación</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            @endif
+            @if (auth()->user()->id_rol == 1)
+                <li class="nav-item">
+                    <a class="nav-link" href="/users">
+                        <i class="ti-shield menu-icon"></i>
+                        <span class="menu-title">Gestión de Usuarios</span>
+                    </a>
+                </li>
+            @endif
             </ul>
         </nav>
         <section class="main-panel py-4">

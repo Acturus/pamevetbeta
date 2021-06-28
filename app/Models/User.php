@@ -30,16 +30,16 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
 
     protected $hidden = [
-      'password',
-      'remember_token',
+        'password',
+        'remember_token',
     ];
-    
+
     static $rules = [
-      'nombres' => 'required|string|min:4|max:100',
-      'apellidos' => 'required|string|min:4|max:100',
-      'email' => 'required|string|min:13|max:100|unique:users,email',
-      'id_rol' => 'required|numeric|min:1',
-      'password'=> 'required|min:8'
+        'nombres' => 'required|string|min:4|max:100',
+        'apellidos' => 'required|string|min:4|max:100',
+        'email' => 'required|string|min:13|max:100|unique:users,email',
+        'id_rol' => 'required|numeric|min:1',
+        'password'=> 'required|min:8'
     ];
 
     protected $perPage = 20;
@@ -53,6 +53,11 @@ class User extends Authenticatable
     protected $guarded = [];
 
     protected $casts = [
-      'estado' => 'boolean'
+        'estado' => 'boolean'
     ];
+
+    public function consultas()
+    {
+        return $this->hasMany('App\Models\Consulta', 'id_user', 'id');
+    }
 }

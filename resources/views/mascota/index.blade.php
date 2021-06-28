@@ -58,7 +58,7 @@
                                 <thead class="thead">
                                     <tr>
                                         <th>No</th>
-                                        
+
 										<th>Cliente</th>
 										<th>Nombre</th>
 										<th>Sexo</th>
@@ -73,7 +73,7 @@
                                     @foreach ($mascotas as $mascota)
                                         <tr>
                                             <td>{{ $loop->index+1 }}</td>
-                                            
+
 											<td>{{ $mascota->cliente->nombres.' '.$mascota->cliente->apellidos }}</td>
 											<td>{{ $mascota->nombre }}</td>
 											<td>{{ $mascota->sexo ? 'macho' : 'hembra' }}</td>
@@ -81,16 +81,22 @@
 											<td>{{ age($mascota->fecha_nacimiento) }}</td>
 											<td>
                                                 @foreach(explode(',', $mascota->fotos) as $urlfoto)
-                                                    <a class="btn btn-sm btn-primary @if (!$loop->first) d-none @endif" href="{{ $urlfoto }}" data-lightbox="fotos{{ $loop->index }}">Ver Fotos</a>
+                                                    <a class="btn btn-sm btn-primary @if (!$loop->first) d-none @endif" href="{{ $urlfoto }}" data-lightbox="fotos{{ $loop->parent->index }}">Ver Fotos</a>
                                                 @endforeach
                                             </td>
                                             <td>
-                                                <form action="{{ route('mascotas.destroy',$mascota->id) }}" method="POST">
-                                                    <a class="btn btn-sm btn-success" href="{{ route('mascotas.edit',$mascota->id) }}"><i class="fa fa-fw fa-edit"></i> Editar</a>
+                                                <a class="btn btn-sm btn-success" href="{{ route('mascotas.edit',$mascota->id) }}"><i class="fa fa-fw fa-edit"></i> Editar</a>
+                                                @if (auth()->user()->id_rol == 2)
+                                                <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#historia">
+                                                    Ver Historia
+                                                </button>
+                                                @else
+                                                <form action="{{ route('mascotas.destroy',$mascota->id) }}" method="POST" class="d-inline pl-2">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="button" class="btn btn-danger btn-sm deler"><i class="fa fa-fw fa-trash"></i> Eliminar</button>
                                                 </form>
+                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach
@@ -102,6 +108,23 @@
             </div>
         </div>
     </div>
+    @if (auth()->user()->id_rol == 2)
+    <div class="modal fade" id="historia" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Historia de Mascota</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <iframe src="" frameborder="0"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
 @endsection
 
 @section('scripts')

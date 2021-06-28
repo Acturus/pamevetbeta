@@ -30,3 +30,8 @@ Route::resource('especie-mascotas', Controladores\EspecieMascotaController::clas
 Route::resource('mascotas', Controladores\MascotaController::class)->middleware('auth');
 Route::resource('servicios', Controladores\ServicioController::class)->middleware('auth');
 Route::resource('ventas', Controladores\VentaController::class)->except(['store'])->middleware('auth');
+Route::get('consultas/atencion',[Controladores\ConsultaController::class,'atencion'])->middleware('auth')->name('consultas.atencion');
+Route::get('consultas/programacion',[Controladores\ConsultaController::class,'programacion'])->middleware('auth')->name('consultas.programacion');
+Route::resource('consultas', Controladores\ConsultaController::class)->middleware('auth');
+Route::get('consultas/{consulta}/editDetail',[Controladores\ConsultaController::class,'editDetail'])->middleware('auth')->name('consultas.editDetail');
+Route::patch('consultas/{consulta}',[Controladores\ConsultaController::class,'saveDetail'])->middleware('auth')->name('consultas.saveDetail');

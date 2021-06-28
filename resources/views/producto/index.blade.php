@@ -40,7 +40,7 @@
                                 <thead class="thead">
                                     <tr>
                                         <th>No</th>
-                                        
+
 										<th>Nombre</th>
 										<th>Marca</th>
 										<th>Unidad Medida</th>
@@ -56,13 +56,13 @@
                                     @foreach ($productos as $producto)
                                         <tr>
                                             <td>{{ $loop->index+1 }}</td>
-                                            
+
 											<td>{{ $producto->nombre }}</td>
 											<td>{{ $producto->provider->nombre }}</td>
 											<td>{{ $producto->unidad_medida }}</td>
 											<td>
                                                 @foreach(explode(',', $producto->fotos) as $urlfoto)
-                                                    <a class="btn btn-sm btn-primary @if (!$loop->first) d-none @endif" href="{{ $urlfoto }}" data-lightbox="fotos{{ $loop->index }}">Ver Fotos</a>
+                                                    <a class="btn btn-sm btn-primary @if (!$loop->first) d-none @endif" href="{{ $urlfoto }}" data-lightbox="fotos{{ $loop->parent->index }}">Ver Fotos</a>
                                                 @endforeach
                                             </td>
 											<td>{{ $producto->cantidad }}</td>

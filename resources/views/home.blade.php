@@ -14,7 +14,7 @@
                         </div>
                     @endif
 
-                    {{ __('You are logged in!') }}
+                    {{ __('Bienvenido al Sistema Pamevet v0.4 beta') }}
                 </div>
             </div>
         </div>

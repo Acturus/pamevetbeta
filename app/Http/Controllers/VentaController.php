@@ -4,11 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Mail\ChangeVentaMail;
 use App\Models\Cliente;
-use App\Models\DetalleVentaServicio;
 use App\Models\Producto;
 use App\Models\Servicio;
 use App\Models\Venta;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
@@ -58,31 +59,17 @@ class VentaController extends Controller
     {
         $fields = $request->validate([
             'id_cliente' => 'numeric|required|exists:clientes,id',
-            'tipo_entrega' => 'numeric|in:1,2|required',
+            'tipo_entrega' => 'numeric|in:1,2,3|required',
+            'direccion' => 'string|nullable',
             'fecha_entrega' => 'required|date|after_or_equal:today',
-            'detalleServicio' => 'required_without:detalleProducto|array',
             'detalleProducto' => 'required_without:detalleServicio|array',
-            'detalleServicio.*.id' => 'required|numeric|exists:servicios,id',
-            'detalleServicio.*.cantidad' => 'required|numeric|min:1',
-            'detalleServicio.*.subtotal' => 'required|numeric|min:1',
             'detalleProducto.*.id' => 'required|numeric|exists:productos,id',
             'detalleProducto.*.cantidad' => 'required|numeric|min:1',
-            'detalleProducto.*.subtotal' => 'required|numeric|min:1',
+            'detalleProducto.*.subtotal' => 'required|numeric|min:1'
         ]);
 
-        
         $venta_total = 0;
-        $detalle_servicios = [];
         $detalle_productos = [];
-
-        foreach ($fields['detalleServicio'] as $detalle) {
-            $venta_total += $detalle['subtotal'];
-            array_push($detalle_servicios,[
-                'id_servicio' => $detalle['id'],
-                'subtotal' => $detalle['subtotal'],
-                'cantidad' => $detalle['cantidad']
-            ]);
-        }
 
         foreach ($fields['detalleProducto'] as $detalle) {
             $venta_total += $detalle['subtotal'];
@@ -93,25 +80,29 @@ class VentaController extends Controller
             ]);
         }
 
+        $datos_cliente = DB::table('clientes')->select('direccion', 'correo')->where('id', $fields['id_cliente'])->first();
 
+        $direccion = $fields['direccion'] ?? ($fields['tipo_entrega'] == '1' ? 'Av. Aramburú 123, Urb. Jesús Obrero, Surco' : $datos_cliente->direccion);
+        $tudey = Carbon::now()->format('d/m/Y h:i A');
+        $codigo_ped = Str::random(8);
 
         $venta = Venta::create([
-            'codigo' => Str::random(8),
+            'codigo' => $codigo_ped,
             'id_cliente' => $fields['id_cliente'],
             'id_estado' => 1,
+            'direccion' => $direccion,
             'costo_total' => $venta_total,
             'tipo_entrega' => $fields['tipo_entrega'],
             'fecha_entrega' => $fields['fecha_entrega']
         ]);
 
         $venta->detalleProducto()->createMany($detalle_productos);
-        $venta->detalleServicio()->createMany($detalle_servicios);
+
+        Mail::to($datos_cliente->correo)->send(new ChangeVentaMail($venta_total, $direccion, $codigo_ped, $tudey, $fields['detalleProducto']));
 
         return response()->json([
-            'message' => 'venta creada con exito'
+            'message' => 'Venta creada con éxito'
         ]);
-
-        
     }
 
     /**
@@ -122,7 +113,7 @@ class VentaController extends Controller
      */
     public function show($id)
     {
-        $venta = Venta::where('id',$id)->with('detalleProducto','detalleProducto.producto','detalleServicio','detalleServicio.servicio')->first();
+        $venta = Venta::where('id',$id)->with('detalleProducto','detalleProducto.producto')->first();
 
         return view('venta.show', compact('venta'));
     }
@@ -150,15 +141,15 @@ class VentaController extends Controller
     public function update(Request $request, Venta $venta)
     {
         $fields = $request->validate([
-            'id_estado' => 'numeric|required|min:1|max:5'
+            'id_estado' => 'numeric|required|min:1|max:5',
+            'hora_entrega'=>'date_format:H:i|nullable',
+            'motivo_anulacion'=>'string|nullable|min:5|max:300'
         ]);
 
         $venta->update($fields);
 
-        Mail::to('arroba@arroba.com')->send(new ChangeVentaMail("holi onichan uwu"));
-
         return redirect()->route('ventas.index')
-            ->with('success', 'Venta updated successfully');
+            ->with('success', 'El tracking fue actualizado');
     }
 
     /**

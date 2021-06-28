@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -43,8 +42,6 @@ class Mascota extends Model
      */
     protected $fillable = ['id_cliente','nombre','sexo','id_especie','fecha_nacimiento','fotos'];
 
-    //protected $casts = ['fecha_nacimiento' => \App\Casts\BirthCast::class];
-
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
@@ -52,7 +49,7 @@ class Mascota extends Model
     {
         return $this->belongsTo('App\Models\Cliente', 'id_cliente', 'id');
     }
-    
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
@@ -60,6 +57,14 @@ class Mascota extends Model
     {
         return $this->belongsTo('App\Models\EspecieMascota', 'id_especie', 'id');
     }
-    
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function consultas()
+    {
+        return $this->hasMany('App\Models\Consulta', 'id_mascota', 'id');
+    }
+
 
 }

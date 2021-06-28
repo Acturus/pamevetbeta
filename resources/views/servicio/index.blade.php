@@ -40,10 +40,11 @@
                                 <thead class="thead">
                                     <tr>
                                         <th>No</th>
-                                        
+
                                         <th>Nombre</th>
 										<th>Descripción</th>
 										<th>Costo</th>
+                                        <th>Duración Aprox.</th>
 										<th>Foto</th>
 
                                         <th></th>
@@ -57,8 +58,8 @@
                                             <td>{{ $servicio->nombre }}</td>
 											<td>{{ $servicio->descripcion }}</td>
 											<td>{{ $servicio->costo }}</td>
-											{{-- <td>{{ $servicio->foto }}</td> --}}
-                                            <td> 
+											<td>{{ $servicio->duracion_horas }}h {{ $servicio->duracion_minutos }}m</td>
+                                            <td>
                                                 @if ($servicio->foto)
                                                     <a class="btn btn-sm btn-primary" href="{{ $servicio->foto }}" data-lightbox="fotos{{ $i }}">Ver Foto</a>
                                                 @else

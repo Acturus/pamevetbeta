@@ -20,7 +20,10 @@ class CreateVentasTable extends Migration
             $table->unsignedTinyInteger('id_estado');
             $table->decimal('costo_total', 7, 2);
             $table->boolean('tipo_entrega');
+            $table->string('direccion', 200)->nullable();
             $table->date('fecha_entrega');
+            $table->time('hora_entrega')->nullable();
+            $table->string('motivo_anulacion', 300)->nullable();
             $table->timestamps();
 
             $table->foreign('id_cliente')->references('id')->on('clientes');
